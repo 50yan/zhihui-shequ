@@ -9,6 +9,12 @@
       <background>0.72 0.74 0.76 1</background>
       <shadows>true</shadows>
     </scene>
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>0 -8 7 1.05 0 0</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
 
     <light name="sun" type="directional">
       <pose>0 0 10 0 0 0</pose>

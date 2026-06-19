@@ -22,6 +22,16 @@
       <geometry><box size="${base_length} ${base_width} ${base_height}"/></geometry>
       <material name="blue"><color rgba="0.05 0.22 0.75 1"/></material>
     </visual>
+    <visual name="visibility_mast">
+      <origin xyz="-0.18 0 0.36" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.025" length="0.72"/></geometry>
+      <material name="bright_orange"><color rgba="1.0 0.35 0.0 1"/></material>
+    </visual>
+    <visual name="visibility_flag">
+      <origin xyz="-0.18 0.12 0.72" rpy="0 0 0"/>
+      <geometry><box size="0.28 0.035 0.18"/></geometry>
+      <material name="bright_yellow"><color rgba="1.0 0.9 0.05 1"/></material>
+    </visual>
     <collision><geometry><box size="${base_length} ${base_width} ${base_height}"/></geometry></collision>
     <inertial>
       <mass value="7.0"/>

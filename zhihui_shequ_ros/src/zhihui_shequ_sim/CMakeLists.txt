@@ -17,6 +17,8 @@ catkin_package()
 
 catkin_install_python(PROGRAMS
   scripts/mission_controller.py
+  scripts/delete_existing_model.py
+  scripts/reset_spawn_model.py
   scripts/vision_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
