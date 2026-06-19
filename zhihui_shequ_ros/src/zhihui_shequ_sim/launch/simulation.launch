@@ -19,7 +19,7 @@
         pkg="gazebo_ros"
         type="spawn_model"
         output="screen"
-        args="-urdf -param robot_description -model smart_car -x -5.2 -y -2.8 -z 0.18 -Y 0.0"/>
+        args="-urdf -param robot_description -model smart_car -x 4.15 -y 3.65 -z 0.22 -Y 3.14159"/>
 
   <node if="$(arg run_mission)"
         name="mission_controller"
