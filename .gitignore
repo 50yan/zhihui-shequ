@@ -1,0 +1,17 @@
+/*
+!.gitignore
+!/zhihui_shequ_ros/
+!/zhihui_shequ_ros/**
+
+# ROS/catkin generated files
+**/build/
+**/devel/
+**/install/
+**/.catkin_tools/
+**/logs/
+
+# Runtime output
+**/captures/
+**/*.bag
+**/*.pyc
+**/__pycache__/

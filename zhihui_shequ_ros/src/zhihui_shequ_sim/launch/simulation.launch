@@ -1,0 +1,31 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <arg name="run_mission" default="true"/>
+  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community.world"/>
+  <arg name="mission_config" default="$(find zhihui_shequ_sim)/config/mission.yaml"/>
+
+  <param name="/use_sim_time" value="true"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find zhihui_shequ_sim)/urdf/smart_car.xacro'"/>
+
+  <node name="spawn_smart_car"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        output="screen"
+        args="-urdf -param robot_description -model smart_car -x -5.2 -y -2.8 -z 0.18 -Y 0.0"/>
+
+  <node if="$(arg run_mission)"
+        name="mission_controller"
+        pkg="zhihui_shequ_sim"
+        type="mission_controller.py"
+        output="screen">
+    <param name="mission_config" value="$(arg mission_config)"/>
+  </node>
+</launch>

@@ -1,0 +1,69 @@
+output_dir: "~/.ros/zhihui_shequ/captures"
+cmd_vel_topic: "/cmd_vel"
+camera_topic: "/camera/image_raw"
+linear_speed: 0.45
+angular_speed: 0.72
+settle_time: 1.0
+
+steps:
+  - name: start_delay
+    action: wait
+    duration: 2.0
+
+  - name: leave_start_area
+    action: drive
+    linear: 0.45
+    angular: 0.0
+    duration: 5.5
+
+  - name: face_people_area_1
+    action: turn
+    linear: 0.0
+    angular: 0.72
+    duration: 2.1
+
+  - name: people_area_1
+    action: capture
+    label: people_a
+
+  - name: cross_a_street
+    action: drive
+    linear: 0.40
+    angular: 0.0
+    duration: 4.0
+
+  - name: face_people_area_2
+    action: turn
+    linear: 0.0
+    angular: -0.72
+    duration: 2.1
+
+  - name: people_area_2
+    action: capture
+    label: people_b
+
+  - name: go_to_plate_area
+    action: drive
+    linear: 0.42
+    angular: 0.0
+    duration: 5.0
+
+  - name: align_plate_area
+    action: turn
+    linear: 0.0
+    angular: -0.72
+    duration: 1.6
+
+  - name: plate_area
+    action: capture
+    label: plate
+
+  - name: park_forward
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 2.0
+
+  - name: finish
+    action: wait
+    duration: 1.0
