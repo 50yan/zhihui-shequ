@@ -1,59 +1,78 @@
 output_dir: "~/.ros/zhihui_shequ/captures"
 cmd_vel_topic: "/cmd_vel"
 camera_topic: "/camera/image_raw"
-linear_speed: 0.45
-angular_speed: 0.72
-settle_time: 1.0
-startup_camera_wait: 1.0
+model_name: "smart_car"
+use_model_state_motion: true
+settle_time: 0.5
+startup_camera_wait: 0.5
+capture_camera_wait: 0.5
 
 steps:
   - name: start_delay
     action: wait
-    duration: 2.0
+    duration: 1.0
 
   - name: leave_start_area
     action: drive
     linear: 0.45
     angular: 0.0
-    duration: 5.5
+    duration: 12.0
 
   - name: face_people_area_1
     action: turn
     linear: 0.0
     angular: 0.72
-    duration: 2.1
+    duration: 2.18
+
+  - name: approach_people_area_1
+    action: drive
+    linear: 0.40
+    angular: 0.0
+    duration: 4.5
 
   - name: people_area_1
     action: capture
     label: people_a
 
-  - name: cross_a_street
+  - name: go_to_people_area_2
     action: drive
     linear: 0.40
     angular: 0.0
-    duration: 4.0
-
-  - name: face_people_area_2
-    action: turn
-    linear: 0.0
-    angular: -0.72
-    duration: 2.1
+    duration: 7.7
 
   - name: people_area_2
     action: capture
     label: people_b
 
-  - name: go_to_plate_area
-    action: drive
-    linear: 0.42
-    angular: 0.0
-    duration: 5.0
+  - name: face_plate_lane
+    action: turn
+    linear: 0.0
+    angular: 0.72
+    duration: 2.18
 
-  - name: align_plate_area
+  - name: go_to_plate_lane
+    action: drive
+    linear: 0.45
+    angular: 0.0
+    duration: 11.1
+
+  - name: face_plate_row
     action: turn
     linear: 0.0
     angular: -0.72
-    duration: 1.6
+    duration: 2.18
+
+  - name: enter_plate_row
+    action: drive
+    linear: 0.35
+    angular: 0.0
+    duration: 2.7
+
+  - name: face_plate_area
+    action: turn
+    linear: 0.0
+    angular: 0.72
+    duration: 2.18
 
   - name: plate_area
     action: capture

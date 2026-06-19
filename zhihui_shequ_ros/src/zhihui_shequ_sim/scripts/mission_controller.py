@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import math
 import os
 import sys
 import time
@@ -8,7 +9,9 @@ import numpy as np
 import rospy
 import yaml
 from cv_bridge import CvBridge
-from geometry_msgs.msg import Twist
+from gazebo_msgs.msg import ModelState
+from gazebo_msgs.srv import GetModelState, SetModelState
+from geometry_msgs.msg import Quaternion, Twist
 from sensor_msgs.msg import Image
 
 script_dir = os.path.dirname(os.path.abspath(globals().get("__file__", globals().get("python_script", sys.argv[0]))))
@@ -35,6 +38,14 @@ def synthetic_image(label):
     return image
 
 
+def yaw_from_quaternion(q):
+    return math.atan2(2.0 * (q.w * q.z + q.x * q.y), 1.0 - 2.0 * (q.y * q.y + q.z * q.z))
+
+
+def quaternion_from_yaw(yaw):
+    return Quaternion(0.0, 0.0, math.sin(yaw * 0.5), math.cos(yaw * 0.5))
+
+
 class MissionController:
     def __init__(self):
         config_path = rospy.get_param("~mission_config")
@@ -43,6 +54,8 @@ class MissionController:
 
         self.cmd_vel_topic = self.config.get("cmd_vel_topic", "/cmd_vel")
         self.camera_topic = self.config.get("camera_topic", "/camera/image_raw")
+        self.model_name = self.config.get("model_name", "smart_car")
+        self.use_model_state_motion = bool(self.config.get("use_model_state_motion", True))
         self.output_dir = os.path.expandvars(os.path.expanduser(self.config.get("output_dir", "~/.ros/zhihui_shequ/captures")))
         os.makedirs(self.output_dir, exist_ok=True)
 
@@ -50,8 +63,24 @@ class MissionController:
         self.last_image = None
         self.cmd_pub = rospy.Publisher(self.cmd_vel_topic, Twist, queue_size=10)
         self.image_sub = rospy.Subscriber(self.camera_topic, Image, self._on_image, queue_size=1)
+        self.get_model_state = None
+        self.set_model_state = None
         rospy.loginfo("Mission output directory: %s", self.output_dir)
         rospy.loginfo("Publishing drive commands on %s", self.cmd_vel_topic)
+
+        if self.use_model_state_motion:
+            self._connect_model_state_services()
+
+    def _connect_model_state_services(self):
+        try:
+            rospy.wait_for_service("/gazebo/get_model_state", timeout=8.0)
+            rospy.wait_for_service("/gazebo/set_model_state", timeout=8.0)
+            self.get_model_state = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
+            self.set_model_state = rospy.ServiceProxy("/gazebo/set_model_state", SetModelState)
+            rospy.loginfo("Using Gazebo model-state motion for %s", self.model_name)
+        except Exception as exc:
+            self.use_model_state_motion = False
+            rospy.logwarn("Gazebo model-state motion unavailable, falling back to cmd_vel physics: %s", exc)
 
     def _on_image(self, msg):
         try:
@@ -62,16 +91,64 @@ class MissionController:
     def stop(self):
         self.cmd_pub.publish(Twist())
 
-    def drive_for(self, linear, angular, duration):
+    def _publish_twist(self, linear, angular):
         twist = Twist()
         twist.linear.x = float(linear)
         twist.angular.z = float(angular)
+        self.cmd_pub.publish(twist)
+        return twist
+
+    def _drive_with_model_state(self, linear, angular, duration):
+        state = self.get_model_state(self.model_name, "world")
+        if not state.success:
+            rospy.logwarn("Could not read model state for %s; using cmd_vel fallback", self.model_name)
+            self._drive_with_cmd_vel(linear, angular, duration)
+            return
+
+        pose = state.pose
+        yaw = yaw_from_quaternion(pose.orientation)
+        z = pose.position.z
+        rate_hz = 30.0
+        dt = 1.0 / rate_hz
+        steps = max(1, int(float(duration) * rate_hz))
+        rate = rospy.Rate(rate_hz)
+        self._publish_twist(linear, angular)
+
+        for _ in range(steps):
+            if rospy.is_shutdown():
+                break
+            yaw += float(angular) * dt
+            pose.position.x += float(linear) * math.cos(yaw) * dt
+            pose.position.y += float(linear) * math.sin(yaw) * dt
+            pose.position.z = z
+            pose.orientation = quaternion_from_yaw(yaw)
+
+            model_state = ModelState()
+            model_state.model_name = self.model_name
+            model_state.pose = pose
+            model_state.twist = Twist()
+            model_state.twist.linear.x = float(linear)
+            model_state.twist.angular.z = float(angular)
+            model_state.reference_frame = "world"
+            self.set_model_state(model_state)
+            rate.sleep()
+
+        self.stop()
+
+    def _drive_with_cmd_vel(self, linear, angular, duration):
+        twist = self._publish_twist(linear, angular)
         end_time = rospy.Time.now() + rospy.Duration(float(duration))
         rate = rospy.Rate(20)
         while not rospy.is_shutdown() and rospy.Time.now() < end_time:
             self.cmd_pub.publish(twist)
             rate.sleep()
         self.stop()
+
+    def drive_for(self, linear, angular, duration):
+        if self.use_model_state_motion and self.get_model_state and self.set_model_state:
+            self._drive_with_model_state(linear, angular, duration)
+        else:
+            self._drive_with_cmd_vel(linear, angular, duration)
 
     def wait_for(self, duration):
         self.stop()
@@ -82,7 +159,8 @@ class MissionController:
         settle_time = float(self.config.get("settle_time", 1.0))
         rospy.sleep(settle_time)
 
-        deadline = time.time() + 5.0
+        camera_timeout = float(self.config.get("capture_camera_wait", 0.5))
+        deadline = time.time() + camera_timeout
         while self.last_image is None and time.time() < deadline and not rospy.is_shutdown():
             rospy.sleep(0.1)
 
