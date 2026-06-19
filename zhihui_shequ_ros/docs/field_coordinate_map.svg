@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1100" viewBox="-5.7 -5.7 11.4 11.4">
+  <defs>
+    <pattern id="smallGrid" width="0.5" height="0.5" patternUnits="userSpaceOnUse">
+      <path d="M 0.5 0 L 0 0 0 0.5" fill="none" stroke="#d4d4d4" stroke-width="0.015"/>
+    </pattern>
+    <pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse">
+      <rect width="1" height="1" fill="url(#smallGrid)"/>
+      <path d="M 1 0 L 0 0 0 1" fill="none" stroke="#9ca3af" stroke-width="0.025"/>
+    </pattern>
+    <style>
+      .label { font: 0.16px Arial, sans-serif; fill: #111827; }
+      .tiny { font: 0.12px Arial, sans-serif; fill: #111827; }
+      .axis { stroke-width: 0.035; marker-end: url(#arrow); }
+      .white-line { fill: #ffffff; stroke: #111827; stroke-width: 0.015; }
+      .wall { fill: #777777; stroke: #222222; stroke-width: 0.025; }
+      .board { fill: #e8e4d6; stroke: #111827; stroke-width: 0.025; }
+      .plate { fill: #1d4ed8; stroke: #111827; stroke-width: 0.02; }
+      .route { fill: none; stroke: #22c55e; stroke-width: 0.05; stroke-dasharray: 0.12 0.08; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="0.18" markerHeight="0.18" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827"/>
+    </marker>
+  </defs>
+
+  <rect x="-5.7" y="-5.7" width="11.4" height="11.4" fill="#f3f4f6"/>
+  <rect x="-5" y="-5" width="10" height="10" fill="#050505"/>
+  <rect x="-5.7" y="-5.7" width="11.4" height="11.4" fill="url(#grid)" opacity="0.85"/>
+
+  <g transform="scale(1,-1)">
+    <rect class="wall" x="-5.2" y="4.99" width="10.4" height="0.12"/>
+    <rect class="wall" x="-5.2" y="-5.11" width="10.4" height="0.12"/>
+    <rect class="wall" x="4.99" y="-5.2" width="0.12" height="10.4"/>
+    <rect class="wall" x="-5.11" y="-5.2" width="0.12" height="10.4"/>
+
+    <rect class="white-line" x="-4.55" y="4.52" width="9.1" height="0.06"/>
+    <rect class="white-line" x="-4.55" y="-4.58" width="9.1" height="0.06"/>
+    <rect class="white-line" x="-4.58" y="-4.55" width="0.06" height="9.1"/>
+    <rect class="white-line" x="4.52" y="-4.55" width="0.06" height="9.1"/>
+    <rect class="white-line" x="-2.95" y="2.52" width="4.7" height="0.06"/>
+    <rect class="white-line" x="-2.58" y="1.35" width="0.06" height="1.2"/>
+    <rect class="white-line" x="-2.55" y="1.32" width="3.1" height="0.06"/>
+    <rect class="white-line" x="0.07" y="-4.15" width="0.06" height="5.5"/>
+    <rect class="white-line" x="2.97" y="-4.5" width="0.06" height="9.0"/>
+    <rect class="white-line" x="-2.13" y="-3.05" width="0.06" height="2.7"/>
+    <rect class="white-line" x="-0.93" y="-3.05" width="0.06" height="2.7"/>
+    <rect class="white-line" x="-2.1" y="-0.38" width="1.2" height="0.06"/>
+    <rect class="white-line" x="-2.1" y="-1.58" width="1.2" height="0.06"/>
+    <rect class="white-line" x="-2.1" y="-3.08" width="1.2" height="0.06"/>
+    <rect class="white-line" x="3.03" y="2.52" width="1.5" height="0.06"/>
+    <rect class="white-line" x="3.03" y="1.17" width="1.5" height="0.06"/>
+    <rect class="white-line" x="3.03" y="-1.13" width="1.5" height="0.06"/>
+    <rect class="white-line" x="3.03" y="-2.28" width="1.5" height="0.06"/>
+
+    <rect class="board" x="-2.45" y="1.71" width="2.0" height="0.08"/>
+    <circle cx="-2.10" cy="1.69" r="0.14" fill="#00b7c7" stroke="#111827" stroke-width="0.015"/>
+    <circle cx="-1.70" cy="1.69" r="0.14" fill="#ef4444" stroke="#111827" stroke-width="0.015"/>
+    <circle cx="-1.30" cy="1.69" r="0.14" fill="#2563eb" stroke="#111827" stroke-width="0.015"/>
+    <circle cx="-0.90" cy="1.69" r="0.14" fill="#f59e0b" stroke="#111827" stroke-width="0.015"/>
+
+    <rect class="board" x="-2.75" y="-1.39" width="2.0" height="0.08"/>
+    <circle cx="-2.30" cy="-1.41" r="0.14" fill="#a855f7" stroke="#111827" stroke-width="0.015"/>
+    <circle cx="-1.90" cy="-1.41" r="0.14" fill="#2563eb" stroke="#111827" stroke-width="0.015"/>
+    <circle cx="-1.50" cy="-1.41" r="0.14" fill="#111827" stroke="#ffffff" stroke-width="0.015"/>
+    <circle cx="-1.10" cy="-1.41" r="0.14" fill="#f59e0b" stroke="#111827" stroke-width="0.015"/>
+
+    <g transform="translate(4.05,-2.2) rotate(-90)">
+      <rect class="board" x="-0.75" y="-0.04" width="1.5" height="0.08"/>
+      <rect class="plate" x="-0.45" y="-0.08" width="0.9" height="0.16"/>
+    </g>
+
+    <path class="route" d="M 4.15 3.65 L -1.2 3.65 L -1.2 1.8 L -1.1 -1.25 L 4.05 -1.0 L 4.05 -1.95 L 4.50 -1.72"/>
+  </g>
+
+  <line class="axis" x1="-5.25" y1="0" x2="5.35" y2="0" stroke="#ef4444"/>
+  <line class="axis" x1="0" y1="5.25" x2="0" y2="-5.35" stroke="#2563eb"/>
+  <text class="label" x="5.05" y="-0.18">+X</text>
+  <text class="label" x="0.12" y="-5.15">+Y</text>
+  <text class="label" x="0.08" y="-0.08">(0,0)</text>
+
+  <g class="tiny">
+    <text x="-4.9" y="-4.75">outer_top y=4.55</text>
+    <text x="-4.9" y="4.95">outer_bottom y=-4.55</text>
+    <text x="-5.55" y="0.1">outer_left x=-4.55</text>
+    <text x="4.1" y="0.1">outer_right x=4.55</text>
+    <text x="-2.55" y="-1.95">people_area_1_board (-1.45, 1.75)</text>
+    <text x="-3.05" y="1.58">people_area_2_board (-1.75, -1.35)</text>
+    <text x="3.45" y="2.42">plate_board (4.05, -2.20)</text>
+    <text x="3.25" y="-3.85">start (4.15, 3.65)</text>
+    <text x="-0.3" y="5.45">Gazebo field coordinate map, units: meters</text>
+  </g>
+</svg>
