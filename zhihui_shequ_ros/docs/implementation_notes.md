@@ -92,3 +92,18 @@ roslaunch zhihui_shequ_sim simulation.launch
 ```
 
 拿到官方模型或修复本机 Gazebo 相机插件后，任务节点会自动优先使用 `/camera/image_raw` 的真实图像。
+## 2026-06-19 四轮车与地图版更新
+
+根据截图中的省赛要求更新：
+
+- 车辆模型已改为四轮结构：左前、左后、右前、右后四个轮子。
+- 差速驱动插件绑定左右后轮，四轮均在 URDF 中有独立 link、joint、visual 和 collision。
+- Gazebo 场地改为黑底白线的简化比赛地图，包含外围墙壁、内部道路/墙线、人员区域 1、人员区域 2 和车辆识别区立牌。
+- `media/materials/textures/smart_community_map.png` 保留了按截图风格生成的地图贴图素材；当前 world 使用几何白线，避免本机 Gazebo 材质路径导致启动不稳定。
+
+验证记录：
+
+- `catkin_make` 通过。
+- `xacro` 展开成功，四轮 joint 存在。
+- `roslaunch zhihui_shequ_sim simulation.launch gui:=false run_mission:=false` 可启动 Gazebo 并生成四轮车辆。
+- `roslaunch zhihui_shequ_sim simulation.launch gui:=false run_mission:=true` 可完成路线、停车、采集和识别流程。

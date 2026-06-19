@@ -24,6 +24,7 @@ catkin_install_python(PROGRAMS
 install(DIRECTORY
   config
   launch
+  media
   urdf
   worlds
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
