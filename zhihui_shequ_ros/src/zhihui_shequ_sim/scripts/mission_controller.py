@@ -51,6 +51,7 @@ class MissionController:
         self.cmd_pub = rospy.Publisher(self.cmd_vel_topic, Twist, queue_size=10)
         self.image_sub = rospy.Subscriber(self.camera_topic, Image, self._on_image, queue_size=1)
         rospy.loginfo("Mission output directory: %s", self.output_dir)
+        rospy.loginfo("Publishing drive commands on %s", self.cmd_vel_topic)
 
     def _on_image(self, msg):
         try:
@@ -105,7 +106,8 @@ class MissionController:
     def run(self):
         rospy.loginfo("Waiting for camera frames on %s", self.camera_topic)
         start = time.time()
-        while self.last_image is None and time.time() - start < 10.0 and not rospy.is_shutdown():
+        startup_camera_wait = float(self.config.get("startup_camera_wait", 1.0))
+        while self.last_image is None and time.time() - start < startup_camera_wait and not rospy.is_shutdown():
             rospy.sleep(0.1)
 
         for step in self.config.get("steps", []):

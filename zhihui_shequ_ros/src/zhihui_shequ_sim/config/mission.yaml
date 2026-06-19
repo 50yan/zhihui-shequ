@@ -4,6 +4,7 @@ camera_topic: "/camera/image_raw"
 linear_speed: 0.45
 angular_speed: 0.72
 settle_time: 1.0
+startup_camera_wait: 1.0
 
 steps:
   - name: start_delay
