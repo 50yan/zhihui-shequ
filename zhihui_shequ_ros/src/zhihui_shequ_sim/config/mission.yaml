@@ -16,7 +16,7 @@ steps:
     action: drive
     linear: 0.45
     angular: 0.0
-    duration: 12.0
+    duration: 18.0
 
   - name: face_people_area_1
     action: turn
@@ -38,7 +38,7 @@ steps:
     action: drive
     linear: 0.40
     angular: 0.0
-    duration: 7.7
+    duration: 4.2
 
   - name: people_area_2
     action: capture
@@ -54,7 +54,7 @@ steps:
     action: drive
     linear: 0.45
     angular: 0.0
-    duration: 11.1
+    duration: 6
 
   - name: face_plate_row
     action: turn
@@ -66,7 +66,7 @@ steps:
     action: drive
     linear: 0.35
     angular: 0.0
-    duration: 2.7
+    duration: 12
 
   - name: face_plate_area
     action: turn
@@ -82,7 +82,7 @@ steps:
     action: drive
     linear: 0.25
     angular: 0.0
-    duration: 2.0
+    duration: 5
 
   - name: finish
     action: wait
