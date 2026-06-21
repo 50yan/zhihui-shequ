@@ -54,7 +54,7 @@ steps:
     action: drive
     linear: 0.45
     angular: 0.0
-    duration: 6
+    duration: 6.5
 
   - name: face_plate_row
     action: turn
@@ -82,8 +82,62 @@ steps:
     action: drive
     linear: 0.25
     angular: 0.0
-    duration: 5
+    duration: 9
+    
+  - name: face_plate_area-2
+    action: turn
+    linear: 0.0
+    angular: 0.72
+    duration: 2.18
+    
+  - name: park_forward-2
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 6
 
+  - name: face_plate_row-2
+    action: turn
+    linear: 0.0
+    angular: -0.72
+    duration: 2.18
+ 
+  - name: park_forward-2
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 8.5
+
+  - name: reverse_after_park
+    action: drive
+    linear: -0.25
+    angular: 0.0
+    duration: 8.0
+
+  - name: face_plate_row-3
+    action: turn
+    linear: 0.0
+    angular: 0.72
+    duration: 2.18
+
+  - name: park_forward-3
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 25.5
+ 
+  - name: face_plate_area-4
+    action: turn
+    linear: 0.0
+    angular: -0.72
+    duration: 2.18 
+    
+  - name: park_forward-3
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 8
+        
   - name: finish
     action: wait
     duration: 1.0
