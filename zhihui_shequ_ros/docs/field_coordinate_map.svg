@@ -16,6 +16,8 @@
       .board { fill: #e8e4d6; stroke: #111827; stroke-width: 0.025; }
       .plate { fill: #1d4ed8; stroke: #111827; stroke-width: 0.02; }
       .route { fill: none; stroke: #22c55e; stroke-width: 0.05; stroke-dasharray: 0.12 0.08; }
+      .name-tag { font: 0.115px Arial, sans-serif; fill: #111827; paint-order: stroke; stroke: #ffffff; stroke-width: 0.035; stroke-linejoin: round; }
+      .wall-tag { font: 0.13px Arial, sans-serif; font-weight: 700; fill: #111827; paint-order: stroke; stroke: #ffffff; stroke-width: 0.04; stroke-linejoin: round; }
     </style>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="0.18" markerHeight="0.18" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827"/>
@@ -87,5 +89,39 @@
     <text x="3.45" y="2.42">plate_board (4.05, -2.20)</text>
     <text x="3.25" y="-3.85">start (4.15, 3.65)</text>
     <text x="-0.3" y="5.45">Gazebo field coordinate map, units: meters</text>
+  </g>
+  <g class="wall-tag">
+    <text x="-0.55" y="-5.12">north wall</text>
+    <text x="-0.55" y="5.25">south wall</text>
+    <text x="4.82" y="0.45" transform="rotate(90 4.82 0.45)">east wall</text>
+    <text x="-5.28" y="0.45" transform="rotate(-90 -5.28 0.45)">west wall</text>
+  </g>
+
+  <g class="name-tag">
+    <text x="-0.35" y="-4.42">outer_top</text>
+    <text x="-0.45" y="4.72">outer_bottom</text>
+    <text x="-4.92" y="-0.35" transform="rotate(-90 -4.92 -0.35)">outer_left</text>
+    <text x="4.85" y="-0.35" transform="rotate(90 4.85 -0.35)">outer_right</text>
+
+    <text x="-1.05" y="-2.68">top_inner_h</text>
+    <text x="-2.98" y="-1.80" transform="rotate(-90 -2.98 -1.80)">top_inner_l</text>
+    <text x="-1.55" y="-1.08">middle_h</text>
+    <text x="0.25" y="1.45" transform="rotate(90 0.25 1.45)">center_v</text>
+    <text x="3.15" y="0.35" transform="rotate(90 3.15 0.35)">right_lane</text>
+
+    <text x="-2.45" y="1.95" transform="rotate(-90 -2.45 1.95)">lower_block_left</text>
+    <text x="-0.65" y="1.95" transform="rotate(90 -0.65 1.95)">lower_block_right</text>
+    <text x="-2.05" y="0.18">lower_block_top</text>
+    <text x="-2.05" y="1.38">lower_block_mid</text>
+    <text x="-2.1" y="2.88">lower_block_bottom</text>
+
+    <text x="3.25" y="-2.72">parking_1</text>
+    <text x="3.25" y="-1.37">parking_2</text>
+    <text x="3.25" y="0.93">parking_3</text>
+    <text x="3.25" y="2.08">parking_4</text>
+
+    <text x="-2.35" y="-1.55">people_area_1_board</text>
+    <text x="-3.0" y="1.28">people_area_2_board</text>
+    <text x="3.55" y="2.18">plate_board</text>
   </g>
 </svg>

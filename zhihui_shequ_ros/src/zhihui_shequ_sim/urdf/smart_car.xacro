@@ -5,6 +5,7 @@
   <xacro:property name="base_height" value="0.16"/>
   <xacro:property name="wheel_radius" value="0.075"/>
   <xacro:property name="wheel_width" value="0.045"/>
+  <xacro:property name="wheel_z" value="-0.035"/>
   <xacro:property name="wheel_y" value="0.245"/>
   <xacro:property name="front_x" value="0.23"/>
   <xacro:property name="rear_x" value="-0.23"/>
@@ -60,7 +61,7 @@
     <joint name="${name}_joint" type="continuous">
       <parent link="base_link"/>
       <child link="${name}"/>
-      <origin xyz="${x} ${y} -0.075" rpy="0 0 0"/>
+      <origin xyz="${x} ${y} ${wheel_z}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
     </joint>
   </xacro:macro>
@@ -72,6 +73,10 @@
         <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
         <material name="dark"><color rgba="0.02 0.02 0.02 1"/></material>
       </visual>
+      <collision>
+        <origin rpy="1.5708 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </collision>
       <inertial>
         <mass value="0.05"/>
         <origin xyz="0 0 0"/>
@@ -81,13 +86,13 @@
     <joint name="${name}_joint" type="fixed">
       <parent link="base_link"/>
       <child link="${name}"/>
-      <origin xyz="${x} ${y} -0.075" rpy="0 0 0"/>
+      <origin xyz="${x} ${y} ${wheel_z}" rpy="0 0 0"/>
     </joint>
   </xacro:macro>
 
-  <xacro:visual_wheel name="left_front_wheel" x="${front_x}" y="${wheel_y}"/>
+  <xacro:drive_wheel name="left_front_wheel" x="${front_x}" y="${wheel_y}"/>
   <xacro:drive_wheel name="left_rear_wheel" x="${rear_x}" y="${wheel_y}"/>
-  <xacro:visual_wheel name="right_front_wheel" x="${front_x}" y="-${wheel_y}"/>
+  <xacro:drive_wheel name="right_front_wheel" x="${front_x}" y="-${wheel_y}"/>
   <xacro:drive_wheel name="right_rear_wheel" x="${rear_x}" y="-${wheel_y}"/>
 
   <link name="camera_link">

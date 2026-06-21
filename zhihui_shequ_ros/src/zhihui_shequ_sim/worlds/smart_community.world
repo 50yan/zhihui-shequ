@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <sdf version="1.6">
   <world name="smart_community">
     <plugin name="ros_api" filename="libgazebo_ros_api_plugin.so"/>
@@ -35,136 +35,136 @@
     <model name="map_white_lines">
       <static>true</static>
       <link name="lines">
-        <!-- A1 outer_bottom | 0-10坐标 中心线坐标: (0,0) 到 (10,0) | 0-10占地: 左下(0,-0.03) 到 右上(10,0.03) | Gazebo中心: (0,-4.55,0.06), Gazebo尺寸: 9.1 x 0.06 x 0.025 -->
+        <!-- A1 outer_bottom | 0-10坐标 中心线坐标: (0,0) 到 (10,0) | 0-10占地: 左下(0,-0.03) 到 右上(10,0.03) | Gazebo中心: (0,-4.55,0.0405), Gazebo尺寸: 9.1 x 0.06 x 0.001 -->
         <visual name="A1_outer_bottom">
-          <pose>0 -4.55 0.06 0 0 0</pose>
-          <geometry><box><size>9.1 0.06 0.025</size></box></geometry>
+          <pose>0 -4.55 0.0405 0 0 0</pose>
+          <geometry><box><size>9.1 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- A2 outer_left | 0-10坐标 中心线坐标: (0,0) 到 (0,10) | 0-10占地: 左下(-0.03,0) 到 右上(0.03,10) | Gazebo中心: (-4.55,0,0.06), Gazebo尺寸: 0.06 x 9.1 x 0.025 -->
+        <!-- A2 outer_left | 0-10坐标 中心线坐标: (0,0) 到 (0,10) | 0-10占地: 左下(-0.03,0) 到 右上(0.03,10) | Gazebo中心: (-4.55,0,0.0405), Gazebo尺寸: 0.06 x 9.1 x 0.001 -->
         <visual name="A2_outer_left">
-          <pose>-4.55 0 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 9.1 0.025</size></box></geometry>
+          <pose>-4.55 0 0.045 0 0 0</pose>
+          <geometry><box><size>0.06 9.1 0.01</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- A3 outer_top | 0-10坐标 中心线坐标: (0,10) 到 (10,10) | 0-10占地: 左下(0,9.97) 到 右上(10,10.03) | Gazebo中心: (0,4.55,0.06), Gazebo尺寸: 9.1 x 0.06 x 0.025 -->
+        <!-- A3 outer_top | 0-10坐标 中心线坐标: (0,10) 到 (10,10) | 0-10占地: 左下(0,9.97) 到 右上(10,10.03) | Gazebo中心: (0,4.55,0.0405), Gazebo尺寸: 9.1 x 0.06 x 0.001 -->
         <visual name="A3_outer_top">
-          <pose>0 4.55 0.06 0 0 0</pose>
-          <geometry><box><size>9.1 0.06 0.025</size></box></geometry>
+          <pose>0 4.55 0.1025 0 0 0</pose>
+          <geometry><box><size>9.1 0.06 0.125</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- A4 outer_right | 0-10坐标 中心线坐标: (10,0) 到 (10,10) | 0-10占地: 左下(9.97,0) 到 右上(10.03,10) | Gazebo中心: (4.55,0,0.06), Gazebo尺寸: 0.06 x 9.1 x 0.025 -->
+        <!-- A4 outer_right | 0-10坐标 中心线坐标: (10,0) 到 (10,10) | 0-10占地: 左下(9.97,0) 到 右上(10.03,10) | Gazebo中心: (4.55,0,0.0405), Gazebo尺寸: 0.06 x 9.1 x 0.001 -->
         <visual name="A4_outer_right">
-          <pose>4.55 0 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 9.1 0.025</size></box></geometry>
+          <pose>4.55 0 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 9.1 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- B1 parking_top | 0-10坐标 中心线坐标: (8,8.5) 到 (10,8.5) | 0-10占地: 左下(8,8.47) 到 右上(10,8.53) | Gazebo中心: (3.64,3.185,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- B1 parking_top | 0-10坐标 中心线坐标: (8,8.5) 到 (10,8.5) | 0-10占地: 左下(8,8.47) 到 右上(10,8.53) | Gazebo中心: (3.64,3.185,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="B1_parking_top">
-          <pose>3.64 3.185 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>3.64 3.185 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- B2 parking_mid | 0-10坐标 中心线坐标: (8,4.5) 到 (10,4.5) | 0-10占地: 左下(8,4.47) 到 右上(10,4.53) | Gazebo中心: (3.64,-0.455,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- B2 parking_mid | 0-10坐标 中心线坐标: (8,4.5) 到 (10,4.5) | 0-10占地: 左下(8,4.47) 到 右上(10,4.53) | Gazebo中心: (3.64,-0.455,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="B2_parking_mid">
-          <pose>3.64 -0.455 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>3.64 -0.455 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- B3 parking_lower_mid | 0-10坐标 中心线坐标: (8,3) 到 (10,3) | 0-10占地: 左下(8,2.97) 到 右上(10,3.03) | Gazebo中心: (3.64,-1.82,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- B3 parking_lower_mid | 0-10坐标 中心线坐标: (8,3) 到 (10,3) | 0-10占地: 左下(8,2.97) 到 右上(10,3.03) | Gazebo中心: (3.64,-1.82,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="B3_parking_lower_mid">
-          <pose>3.64 -1.82 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>3.64 -1.82 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- B4 parking_bottom | 0-10坐标 中心线坐标: (8,1.5) 到 (10,1.5) | 0-10占地: 左下(8,1.47) 到 右上(10,1.53) | Gazebo中心: (3.64,-3.185,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- B4 parking_bottom | 0-10坐标 中心线坐标: (8,1.5) 到 (10,1.5) | 0-10占地: 左下(8,1.47) 到 右上(10,1.53) | Gazebo中心: (3.64,-3.185,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="B4_parking_bottom">
-          <pose>3.64 -3.185 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>3.64 -3.185 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- B5 right_lane_left | 0-10坐标 中心线坐标: (8,0) 到 (8,10) | 0-10占地: 左下(7.97,0) 到 右上(8.03,10) | Gazebo中心: (2.73,0,0.06), Gazebo尺寸: 0.06 x 9.1 x 0.025 -->
+        <!-- B5 right_lane_left | 0-10坐标 中心线坐标: (8,0) 到 (8,10) | 0-10占地: 左下(7.97,0) 到 右上(8.03,10) | Gazebo中心: (2.73,0,0.0405), Gazebo尺寸: 0.06 x 9.1 x 0.001 -->
         <visual name="B5_right_lane_left">
-          <pose>2.73 0 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 9.1 0.025</size></box></geometry>
+          <pose>2.73 0 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 9.1 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- C1 lower_box_top | 0-10坐标 中心线坐标: (1.5,4.5) 到 (3.5,4.5) | 0-10占地: 左下(1.5,4.47) 到 右上(3.5,4.53) | Gazebo中心: (-2.275,-0.455,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- C1 lower_box_top | 0-10坐标 中心线坐标: (1.5,4.5) 到 (3.5,4.5) | 0-10占地: 左下(1.5,4.47) 到 右上(3.5,4.53) | Gazebo中心: (-2.275,-0.455,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="C1_lower_box_top">
-          <pose>-2.275 -0.455 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>-2.275 -0.455 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- C2 lower_box_left | 0-10坐标 中心线坐标: (1.5,1.5) 到 (1.5,4.5) | 0-10占地: 左下(1.47,1.5) 到 右上(1.53,4.5) | Gazebo中心: (-3.185,-1.82,0.06), Gazebo尺寸: 0.06 x 2.73 x 0.025 -->
+        <!-- C2 lower_box_left | 0-10坐标 中心线坐标: (1.5,1.5) 到 (1.5,4.5) | 0-10占地: 左下(1.47,1.5) 到 右上(1.53,4.5) | Gazebo中心: (-3.185,-1.82,0.0405), Gazebo尺寸: 0.06 x 2.73 x 0.001 -->
         <visual name="C2_lower_box_left">
-          <pose>-3.185 -1.82 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 2.73 0.025</size></box></geometry>
+          <pose>-3.185 -1.82 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 2.73 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- C3 lower_box_mid | 0-10坐标 中心线坐标: (1.5,3) 到 (3.5,3) | 0-10占地: 左下(1.5,2.97) 到 右上(3.5,3.03) | Gazebo中心: (-2.275,-1.82,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- C3 lower_box_mid | 0-10坐标 中心线坐标: (1.5,3) 到 (3.5,3) | 0-10占地: 左下(1.5,2.97) 到 右上(3.5,3.03) | Gazebo中心: (-2.275,-1.82,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="C3_lower_box_mid">
-          <pose>-2.275 -1.82 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>-2.275 -1.82 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- C4 lower_box_bottom | 0-10坐标 中心线坐标: (1.5,1.5) 到 (3.5,1.5) | 0-10占地: 左下(1.5,1.47) 到 右上(3.5,1.53) | Gazebo中心: (-2.275,-3.185,0.06), Gazebo尺寸: 1.82 x 0.06 x 0.025 -->
+        <!-- C4 lower_box_bottom | 0-10坐标 中心线坐标: (1.5,1.5) 到 (3.5,1.5) | 0-10占地: 左下(1.5,1.47) 到 右上(3.5,1.53) | Gazebo中心: (-2.275,-3.185,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
         <visual name="C4_lower_box_bottom">
-          <pose>-2.275 -3.185 0.06 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.025</size></box></geometry>
+          <pose>-2.275 -3.185 0.0405 0 0 0</pose>
+          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- C5 lower_box_right | 0-10坐标 中心线坐标: (3.5,1.5) 到 (3.5,4.5) | 0-10占地: 左下(3.47,1.5) 到 右上(3.53,4.5) | Gazebo中心: (-1.365,-1.82,0.06), Gazebo尺寸: 0.06 x 2.73 x 0.025 -->
+        <!-- C5 lower_box_right | 0-10坐标 中心线坐标: (3.5,1.5) 到 (3.5,4.5) | 0-10占地: 左下(3.47,1.5) 到 右上(3.53,4.5) | Gazebo中心: (-1.365,-1.82,0.0405), Gazebo尺寸: 0.06 x 2.73 x 0.001 -->
         <visual name="C5_lower_box_right">
-          <pose>-1.365 -1.82 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 2.73 0.025</size></box></geometry>
+          <pose>-1.365 -1.82 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 2.73 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- D1 gate_h | 0-10坐标 中心线坐标: (3.5,3) 到 (4.5,3) | 0-10占地: 左下(3.5,2.97) 到 右上(4.5,3.03) | Gazebo中心: (-0.91,-1.82,0.06), Gazebo尺寸: 0.91 x 0.06 x 0.025 -->
+        <!-- D1 gate_h | 0-10坐标 中心线坐标: (3.5,3) 到 (4.5,3) | 0-10占地: 左下(3.5,2.97) 到 右上(4.5,3.03) | Gazebo中心: (-0.91,-1.82,0.0405), Gazebo尺寸: 0.91 x 0.06 x 0.001 -->
         <visual name="D1_gate_h">
-          <pose>-0.91 -1.82 0.06 0 0 0</pose>
-          <geometry><box><size>0.91 0.06 0.025</size></box></geometry>
+          <pose>-0.91 -1.82 0.0405 0 0 0</pose>
+          <geometry><box><size>0.91 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- D2 top_gate_v | 0-10坐标 中心线坐标: (4.5,8.5) 到 (4.5,10) | 0-10占地: 左下(4.47,8.5) 到 右上(4.53,10) | Gazebo中心: (-0.455,3.868,0.06), Gazebo尺寸: 0.06 x 1.365 x 0.025 -->
+        <!-- D2 top_gate_v | 0-10坐标 中心线坐标: (4.5,8.5) 到 (4.5,10) | 0-10占地: 左下(4.47,8.5) 到 右上(4.53,10) | Gazebo中心: (-0.455,3.868,0.0405), Gazebo尺寸: 0.06 x 1.365 x 0.001 -->
         <visual name="D2_top_gate_v">
-          <pose>-0.455 3.868 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 1.365 0.025</size></box></geometry>
+          <pose>-0.455 3.868 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 1.365 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- E1 upper_box_bottom | 0-10坐标 中心线坐标: (1.5,6.5) 到 (4.5,6.5) | 0-10占地: 左下(1.5,6.47) 到 右上(4.5,6.53) | Gazebo中心: (-1.82,1.365,0.06), Gazebo尺寸: 2.73 x 0.06 x 0.025 -->
+        <!-- E1 upper_box_bottom | 0-10坐标 中心线坐标: (1.5,6.5) 到 (4.5,6.5) | 0-10占地: 左下(1.5,6.47) 到 右上(4.5,6.53) | Gazebo中心: (-1.82,1.365,0.0405), Gazebo尺寸: 2.73 x 0.06 x 0.001 -->
         <visual name="E1_upper_box_bottom">
-          <pose>-1.82 1.365 0.06 0 0 0</pose>
-          <geometry><box><size>2.73 0.06 0.025</size></box></geometry>
+          <pose>-1.82 1.365 0.0405 0 0 0</pose>
+          <geometry><box><size>2.73 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- E2 upper_box_left | 0-10坐标 中心线坐标: (1.5,6.5) 到 (1.5,8.5) | 0-10占地: 左下(1.47,6.5) 到 右上(1.53,8.5) | Gazebo中心: (-3.185,2.275,0.06), Gazebo尺寸: 0.06 x 1.82 x 0.025 -->
+        <!-- E2 upper_box_left | 0-10坐标 中心线坐标: (1.5,6.5) 到 (1.5,8.5) | 0-10占地: 左下(1.47,6.5) 到 右上(1.53,8.5) | Gazebo中心: (-3.185,2.275,0.0405), Gazebo尺寸: 0.06 x 1.82 x 0.001 -->
         <visual name="E2_upper_box_left">
-          <pose>-3.185 2.275 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 1.82 0.025</size></box></geometry>
+          <pose>-3.185 2.275 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 1.82 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- E3 upper_box_top | 0-10坐标 中心线坐标: (1.5,8.5) 到 (6,8.5) | 0-10占地: 左下(1.5,8.47) 到 右上(6,8.53) | Gazebo中心: (-1.138,3.185,0.06), Gazebo尺寸: 4.095 x 0.06 x 0.025 -->
+        <!-- E3 upper_box_top | 0-10坐标 中心线坐标: (1.5,8.5) 到 (6,8.5) | 0-10占地: 左下(1.5,8.47) 到 右上(6,8.53) | Gazebo中心: (-1.138,3.185,0.0405), Gazebo尺寸: 4.095 x 0.06 x 0.001 -->
         <visual name="E3_upper_box_top">
-          <pose>-1.138 3.185 0.06 0 0 0</pose>
-          <geometry><box><size>4.095 0.06 0.025</size></box></geometry>
+          <pose>-1.138 3.185 0.0405 0 0 0</pose>
+          <geometry><box><size>4.095 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- E4 center_block_left | 0-10坐标 中心线坐标: (4.5,1.5) 到 (4.5,6.5) | 0-10占地: 左下(4.47,1.5) 到 右上(4.53,6.5) | Gazebo中心: (-0.455,-0.91,0.06), Gazebo尺寸: 0.06 x 4.55 x 0.025 -->
+        <!-- E4 center_block_left | 0-10坐标 中心线坐标: (4.5,1.5) 到 (4.5,6.5) | 0-10占地: 左下(4.47,1.5) 到 右上(4.53,6.5) | Gazebo中心: (-0.455,-0.91,0.0405), Gazebo尺寸: 0.06 x 4.55 x 0.001 -->
         <visual name="E4_center_block_left">
-          <pose>-0.455 -0.91 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 4.55 0.025</size></box></geometry>
+          <pose>-0.455 -0.91 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 4.55 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- E5 center_block_right | 0-10坐标 中心线坐标: (6,1.5) 到 (6,8.5) | 0-10占地: 左下(5.97,1.5) 到 右上(6.03,8.5) | Gazebo中心: (0.91,0,0.06), Gazebo尺寸: 0.06 x 6.37 x 0.025 -->
+        <!-- E5 center_block_right | 0-10坐标 中心线坐标: (6,1.5) 到 (6,8.5) | 0-10占地: 左下(5.97,1.5) 到 右上(6.03,8.5) | Gazebo中心: (0.91,0,0.0405), Gazebo尺寸: 0.06 x 6.37 x 0.001 -->
         <visual name="E5_center_block_right">
-          <pose>0.91 0 0.06 0 0 0</pose>
-          <geometry><box><size>0.06 6.37 0.025</size></box></geometry>
+          <pose>0.91 0 0.0405 0 0 0</pose>
+          <geometry><box><size>0.06 6.37 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
-        <!-- E6 center_block_bottom | 0-10坐标 中心线坐标: (4.5,1.5) 到 (6,1.5) | 0-10占地: 左下(4.5,1.47) 到 右上(6,1.53) | Gazebo中心: (0.228,-3.185,0.06), Gazebo尺寸: 1.365 x 0.06 x 0.025 -->
+        <!-- E6 center_block_bottom | 0-10坐标 中心线坐标: (4.5,1.5) 到 (6,1.5) | 0-10占地: 左下(4.5,1.47) 到 右上(6,1.53) | Gazebo中心: (0.228,-3.185,0.0405), Gazebo尺寸: 1.365 x 0.06 x 0.001 -->
         <visual name="E6_center_block_bottom">
-          <pose>0.228 -3.185 0.06 0 0 0</pose>
-          <geometry><box><size>1.365 0.06 0.025</size></box></geometry>
+          <pose>0.228 -3.185 0.0405 0 0 0</pose>
+          <geometry><box><size>1.365 0.06 0.001</size></box></geometry>
           <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
         </visual>
       </link>

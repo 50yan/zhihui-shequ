@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -9,22 +9,25 @@
     header { padding: 18px 24px 10px; background: #ffffff; border-bottom: 1px solid #d1d5db; }
     h1 { margin: 0 0 8px; font-size: 24px; }
     p { margin: 6px 0; line-height: 1.5; }
-    main { display: grid; grid-template-columns: minmax(520px, 1fr) 520px; gap: 16px; padding: 16px; }
+    main { display: grid; grid-template-columns: minmax(520px, 1fr) 680px; gap: 16px; padding: 16px; }
     .panel { background: #ffffff; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
     .map { padding: 12px; }
     iframe { width: 100%; height: calc(100vh - 150px); min-height: 620px; border: 0; background: #f9fafb; }
     .table-wrap { max-height: calc(100vh - 150px); min-height: 620px; overflow: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th, td { border-bottom: 1px solid #e5e7eb; padding: 7px 8px; text-align: left; white-space: nowrap; }
-    th { position: sticky; top: 0; background: #f9fafb; z-index: 1; }
+    th, td { border-bottom: 1px solid #e5e7eb; padding: 7px 8px; text-align: left; vertical-align: top; }
+    th { position: sticky; top: 0; background: #f9fafb; z-index: 1; white-space: nowrap; }
     code { background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
     .muted { color: #4b5563; }
+    .mono { font-family: Consolas, Monaco, monospace; white-space: nowrap; }
+    .section { background: #eef2ff; font-weight: 700; }
   </style>
 </head>
 <body>
   <header>
     <h1>智慧社区场地坐标参考</h1>
-    <p class="muted">右边表格里的名称可以直接在 <code>src/zhihui_shequ_sim/worlds/smart_community.world</code> 搜索。改位置主要改 <code>&lt;pose&gt;x y z roll pitch yaw&lt;/pose&gt;</code> 的前两个数字。</p>
+    <p class="muted">这个表不再只写中心点，而是直接写你能看懂的 XOY 投影。横线/竖线看“中心线端点”，矩形看“左下角到右上角”。</p>
+    <p class="muted">如果要改位置，到 <code>src/zhihui_shequ_sim/worlds/smart_community.world</code> 搜索对象名，修改附近的 <code>&lt;pose&gt;x y z ...&lt;/pose&gt;</code>。</p>
   </header>
   <main>
     <section class="panel map">
@@ -33,32 +36,46 @@
     <section class="panel table-wrap">
       <table>
         <thead>
-          <tr><th>对象</th><th>x</th><th>y</th><th>z</th><th>尺寸/说明</th></tr>
+          <tr>
+            <th>对象名</th>
+            <th>XOY 投影，直接看这个</th>
+            <th>world 文件里的写法</th>
+            <th>说明</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>map_floor / black_map</td><td>0.00</td><td>0.00</td><td>0.025</td><td>10.00 x 10.00</td></tr>
-          <tr><td>outer_top</td><td>0.00</td><td>4.55</td><td>0.06</td><td>9.10 x 0.06</td></tr>
-          <tr><td>outer_bottom</td><td>0.00</td><td>-4.55</td><td>0.06</td><td>9.10 x 0.06</td></tr>
-          <tr><td>outer_left</td><td>-4.55</td><td>0.00</td><td>0.06</td><td>0.06 x 9.10</td></tr>
-          <tr><td>outer_right</td><td>4.55</td><td>0.00</td><td>0.06</td><td>0.06 x 9.10</td></tr>
-          <tr><td>top_inner_h</td><td>-0.60</td><td>2.55</td><td>0.06</td><td>4.70 x 0.06</td></tr>
-          <tr><td>top_inner_l</td><td>-2.55</td><td>1.95</td><td>0.06</td><td>0.06 x 1.20</td></tr>
-          <tr><td>middle_h</td><td>-1.00</td><td>1.35</td><td>0.06</td><td>3.10 x 0.06</td></tr>
-          <tr><td>center_v</td><td>0.10</td><td>-1.40</td><td>0.06</td><td>0.06 x 5.50</td></tr>
-          <tr><td>right_lane</td><td>3.00</td><td>0.00</td><td>0.06</td><td>0.06 x 9.00</td></tr>
-          <tr><td>lower_block_left</td><td>-2.10</td><td>-1.70</td><td>0.06</td><td>0.06 x 2.70</td></tr>
-          <tr><td>lower_block_right</td><td>-0.90</td><td>-1.70</td><td>0.06</td><td>0.06 x 2.70</td></tr>
-          <tr><td>lower_block_top</td><td>-1.50</td><td>-0.35</td><td>0.06</td><td>1.20 x 0.06</td></tr>
-          <tr><td>lower_block_mid</td><td>-1.50</td><td>-1.55</td><td>0.06</td><td>1.20 x 0.06</td></tr>
-          <tr><td>lower_block_bottom</td><td>-1.50</td><td>-3.05</td><td>0.06</td><td>1.20 x 0.06</td></tr>
-          <tr><td>parking_1</td><td>3.78</td><td>2.55</td><td>0.06</td><td>1.50 x 0.06</td></tr>
-          <tr><td>parking_2</td><td>3.78</td><td>1.20</td><td>0.06</td><td>1.50 x 0.06</td></tr>
-          <tr><td>parking_3</td><td>3.78</td><td>-1.10</td><td>0.06</td><td>1.50 x 0.06</td></tr>
-          <tr><td>parking_4</td><td>3.78</td><td>-2.25</td><td>0.06</td><td>1.50 x 0.06</td></tr>
-          <tr><td>people_area_1_board</td><td>-1.45</td><td>1.75</td><td>0.65</td><td>2.00 x 0.08 x 1.25</td></tr>
-          <tr><td>people_area_2_board</td><td>-1.75</td><td>-1.35</td><td>0.65</td><td>2.00 x 0.08 x 1.25</td></tr>
-          <tr><td>plate_board</td><td>4.05</td><td>-2.20</td><td>0.65</td><td>yaw=-1.5708</td></tr>
-          <tr><td>start / smart_car spawn</td><td>4.15</td><td>3.65</td><td>0.22</td><td>simulation.launch</td></tr>
+          <tr class="section"><td colspan="4">场地和外围墙</td></tr>
+          <tr><td>black_map</td><td class="mono">矩形：左下(-5.00,-5.00) 到 右上(5.00,5.00)</td><td class="mono">pose=(0.00,0.00), size=10.00x10.00</td><td>黑色地面</td></tr>
+          <tr><td>north wall</td><td class="mono">矩形：左下(-5.20,4.99) 到 右上(5.20,5.11)</td><td class="mono">pose=(0.00,5.05), size=10.40x0.12</td><td>上方灰色墙</td></tr>
+          <tr><td>south wall</td><td class="mono">矩形：左下(-5.20,-5.11) 到 右上(5.20,-4.99)</td><td class="mono">pose=(0.00,-5.05), size=10.40x0.12</td><td>下方灰色墙</td></tr>
+          <tr><td>east wall</td><td class="mono">矩形：左下(4.99,-5.20) 到 右上(5.11,5.20)</td><td class="mono">pose=(5.05,0.00), size=0.12x10.40</td><td>右侧灰色墙</td></tr>
+          <tr><td>west wall</td><td class="mono">矩形：左下(-5.11,-5.20) 到 右上(-4.99,5.20)</td><td class="mono">pose=(-5.05,0.00), size=0.12x10.40</td><td>左侧灰色墙</td></tr>
+
+          <tr class="section"><td colspan="4">白线，按端点理解</td></tr>
+          <tr><td>outer_top</td><td class="mono">中心线：(-4.55,4.55) 到 (4.55,4.55)<br>占地：左下(-4.55,4.52) 到 右上(4.55,4.58)</td><td class="mono">pose=(0.00,4.55), size=9.10x0.06</td><td>上边框白线</td></tr>
+          <tr><td>outer_bottom</td><td class="mono">中心线：(-4.55,-4.55) 到 (4.55,-4.55)<br>占地：左下(-4.55,-4.58) 到 右上(4.55,-4.52)</td><td class="mono">pose=(0.00,-4.55), size=9.10x0.06</td><td>下边框白线</td></tr>
+          <tr><td>outer_left</td><td class="mono">中心线：(-4.55,-4.55) 到 (-4.55,4.55)<br>占地：左下(-4.58,-4.55) 到 右上(-4.52,4.55)</td><td class="mono">pose=(-4.55,0.00), size=0.06x9.10</td><td>左边框白线</td></tr>
+          <tr><td>outer_right</td><td class="mono">中心线：(4.55,-4.55) 到 (4.55,4.55)<br>占地：左下(4.52,-4.55) 到 右上(4.58,4.55)</td><td class="mono">pose=(4.55,0.00), size=0.06x9.10</td><td>右边框白线</td></tr>
+          <tr><td>top_inner_h</td><td class="mono">中心线：(-2.95,2.55) 到 (1.75,2.55)<br>占地：左下(-2.95,2.52) 到 右上(1.75,2.58)</td><td class="mono">pose=(-0.60,2.55), size=4.70x0.06</td><td>上方内部横线</td></tr>
+          <tr><td>top_inner_l</td><td class="mono">中心线：(-2.55,1.35) 到 (-2.55,2.55)<br>占地：左下(-2.58,1.35) 到 右上(-2.52,2.55)</td><td class="mono">pose=(-2.55,1.95), size=0.06x1.20</td><td>上方内部竖线</td></tr>
+          <tr><td>middle_h</td><td class="mono">中心线：(-2.55,1.35) 到 (0.55,1.35)<br>占地：左下(-2.55,1.32) 到 右上(0.55,1.38)</td><td class="mono">pose=(-1.00,1.35), size=3.10x0.06</td><td>中部横线</td></tr>
+          <tr><td>center_v</td><td class="mono">中心线：(0.10,-4.15) 到 (0.10,1.35)<br>占地：左下(0.07,-4.15) 到 右上(0.13,1.35)</td><td class="mono">pose=(0.10,-1.40), size=0.06x5.50</td><td>中部竖线</td></tr>
+          <tr><td>right_lane</td><td class="mono">中心线：(3.00,-4.50) 到 (3.00,4.50)<br>占地：左下(2.97,-4.50) 到 右上(3.03,4.50)</td><td class="mono">pose=(3.00,0.00), size=0.06x9.00</td><td>右侧车道竖线</td></tr>
+          <tr><td>lower_block_left</td><td class="mono">中心线：(-2.10,-3.05) 到 (-2.10,-0.35)<br>占地：左下(-2.13,-3.05) 到 右上(-2.07,-0.35)</td><td class="mono">pose=(-2.10,-1.70), size=0.06x2.70</td><td>下方方框左线</td></tr>
+          <tr><td>lower_block_right</td><td class="mono">中心线：(-0.90,-3.05) 到 (-0.90,-0.35)<br>占地：左下(-0.93,-3.05) 到 右上(-0.87,-0.35)</td><td class="mono">pose=(-0.90,-1.70), size=0.06x2.70</td><td>下方方框右线</td></tr>
+          <tr><td>lower_block_top</td><td class="mono">中心线：(-2.10,-0.35) 到 (-0.90,-0.35)<br>占地：左下(-2.10,-0.38) 到 右上(-0.90,-0.32)</td><td class="mono">pose=(-1.50,-0.35), size=1.20x0.06</td><td>下方方框上线</td></tr>
+          <tr><td>lower_block_mid</td><td class="mono">中心线：(-2.10,-1.55) 到 (-0.90,-1.55)<br>占地：左下(-2.10,-1.58) 到 右上(-0.90,-1.52)</td><td class="mono">pose=(-1.50,-1.55), size=1.20x0.06</td><td>下方方框中线</td></tr>
+          <tr><td>lower_block_bottom</td><td class="mono">中心线：(-2.10,-3.05) 到 (-0.90,-3.05)<br>占地：左下(-2.10,-3.08) 到 右上(-0.90,-3.02)</td><td class="mono">pose=(-1.50,-3.05), size=1.20x0.06</td><td>下方方框下线</td></tr>
+          <tr><td>parking_1</td><td class="mono">中心线：(3.03,2.55) 到 (4.53,2.55)<br>占地：左下(3.03,2.52) 到 右上(4.53,2.58)</td><td class="mono">pose=(3.78,2.55), size=1.50x0.06</td><td>停车线</td></tr>
+          <tr><td>parking_2</td><td class="mono">中心线：(3.03,1.20) 到 (4.53,1.20)<br>占地：左下(3.03,1.17) 到 右上(4.53,1.23)</td><td class="mono">pose=(3.78,1.20), size=1.50x0.06</td><td>停车线</td></tr>
+          <tr><td>parking_3</td><td class="mono">中心线：(3.03,-1.10) 到 (4.53,-1.10)<br>占地：左下(3.03,-1.13) 到 右上(4.53,-1.07)</td><td class="mono">pose=(3.78,-1.10), size=1.50x0.06</td><td>停车线</td></tr>
+          <tr><td>parking_4</td><td class="mono">中心线：(3.03,-2.25) 到 (4.53,-2.25)<br>占地：左下(3.03,-2.28) 到 右上(4.53,-2.22)</td><td class="mono">pose=(3.78,-2.25), size=1.50x0.06</td><td>停车线</td></tr>
+
+          <tr class="section"><td colspan="4">识别板和小车</td></tr>
+          <tr><td>people_area_1_board</td><td class="mono">背板中心：(-1.45,1.75)<br>近似占地：左下(-2.45,1.71) 到 右上(-0.45,1.79)</td><td class="mono">pose=(-1.45,1.75), size=2.00x0.08</td><td>人员识别区 1</td></tr>
+          <tr><td>people_area_2_board</td><td class="mono">背板中心：(-1.75,-1.35)<br>近似占地：左下(-2.75,-1.39) 到 右上(-0.75,-1.31)</td><td class="mono">pose=(-1.75,-1.35), size=2.00x0.08</td><td>人员识别区 2</td></tr>
+          <tr><td>plate_board</td><td class="mono">背板中心：(4.05,-2.20)<br>旋转后近似占地：左下(4.01,-2.95) 到 右上(4.09,-1.45)</td><td class="mono">pose=(4.05,-2.20), yaw=-1.5708</td><td>车牌识别区</td></tr>
+          <tr><td>start / smart_car spawn</td><td class="mono">小车初始中心：(4.15,3.65)</td><td class="mono">simulation.launch pose=(4.15,3.65)</td><td>小车起点</td></tr>
         </tbody>
       </table>
     </section>

@@ -23,7 +23,7 @@
     <param name="robot_description_param" value="/robot_description"/>
     <param name="x" value="4.15"/>
     <param name="y" value="3.65"/>
-    <param name="z" value="0.22"/>
+    <param name="z" value="0.30"/>
     <param name="yaw" value="3.14159"/>
   </node>
 
