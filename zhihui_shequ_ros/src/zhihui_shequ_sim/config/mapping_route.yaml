@@ -1,0 +1,36 @@
+cmd_vel_topic: /cmd_vel
+odom_topic: /odom
+scan_topic: /scan
+scan_timeout: 1.0
+max_linear: 0.45
+max_angular: 0.90
+distance_tolerance: 0.18
+obstacle_stop_distance: 0.42
+avoidance_angular: 0.75
+avoid_turn_duration: 1.0
+avoid_forward_duration: 1.2
+avoid_forward_speed: 0.18
+waypoint_timeout: 90.0
+
+# Coordinates are Gazebo/odom coordinates in metres. Motion uses cmd_vel only.
+waypoints:
+  - {name: start, x: 4.15, y: 3.65}
+  - {name: north_east, x: 2.70, y: 3.70}
+  - {name: north_central, x: 0.00, y: 3.70}
+  - {name: central_middle, x: -0.20, y: 1.55}
+  - {name: people_corridor, x: -3.65, y: 1.55}
+  - {name: west_middle, x: -4.25, y: 1.55}
+  - {name: north_west, x: -4.25, y: 4.25}
+  - {name: west_return, x: -4.25, y: 1.55}
+  - {name: west_south, x: -4.25, y: -4.45}
+  - {name: south_light_west, x: -0.55, y: -4.45}
+  - {name: south_light_north, x: -0.55, y: -3.55}
+  - {name: south_light_clear, x: -0.55, y: -3.35}
+  - {name: central_south, x: -0.20, y: -3.35}
+  - {name: central_return, x: -0.20, y: 1.55}
+  - {name: north_return, x: 0.00, y: 3.70}
+  - {name: east_corridor_top, x: 2.70, y: 3.70}
+  - {name: east_corridor_bottom, x: 2.70, y: -3.70}
+  - {name: south_east, x: 2.70, y: -4.45}
+  - {name: east_return_top, x: 2.70, y: 3.70}
+  - {name: finish, x: 4.15, y: 3.65}

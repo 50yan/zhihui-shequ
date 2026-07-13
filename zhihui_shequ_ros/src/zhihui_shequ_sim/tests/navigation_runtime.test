@@ -1,0 +1,12 @@
+<launch>
+  <include file="$(find zhihui_shequ_sim)/launch/competition_navigation.launch">
+    <arg name="gui" value="false"/>
+    <arg name="run_patrol" value="false"/>
+    <arg name="show_camera_window" value="false"/>
+  </include>
+
+  <test test-name="navigation_runtime"
+        pkg="zhihui_shequ_sim"
+        type="navigation_runtime_test.py"
+        time-limit="180"/>
+</launch>

@@ -1,0 +1,51 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="run_patrol" default="true"/>
+  <arg name="show_camera_window" default="true"/>
+  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community.world"/>
+  <arg name="map_file" default="$(find zhihui_shequ_sim)/maps/smart_community_slam.yaml"/>
+  <arg name="patrol_config" default="$(find zhihui_shequ_sim)/config/patrol.yaml"/>
+
+  <include file="$(find zhihui_shequ_sim)/launch/simulation_base.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="world" value="$(arg world)"/>
+  </include>
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen"/>
+
+  <node name="amcl" pkg="amcl" type="amcl" output="screen">
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/amcl.yaml"/>
+    <param name="initial_pose_x" value="4.15"/>
+    <param name="initial_pose_y" value="3.65"/>
+    <param name="initial_pose_a" value="3.14159"/>
+  </node>
+
+  <node name="move_base" pkg="move_base" type="move_base" output="screen" clear_params="true">
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/move_base.yaml"/>
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/costmap_common.yaml" ns="global_costmap"/>
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/costmap_common.yaml" ns="local_costmap"/>
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/global_costmap.yaml"/>
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/local_costmap.yaml"/>
+    <rosparam command="load" file="$(find zhihui_shequ_sim)/config/base_local_planner.yaml"/>
+  </node>
+
+  <node if="$(arg run_patrol)"
+        name="patrol_navigation"
+        pkg="zhihui_shequ_sim"
+        type="patrol_navigation.py"
+        output="screen">
+    <param name="config" value="$(arg patrol_config)"/>
+  </node>
+
+  <node if="$(arg show_camera_window)"
+        name="navigation_status_window"
+        pkg="zhihui_shequ_sim"
+        type="navigation_status_window.py"
+        output="screen">
+    <param name="camera_topic" value="/camera/image_raw"/>
+    <param name="window_name" value="Smart Community Navigation"/>
+    <param name="width" value="760"/>
+    <param name="height" value="620"/>
+    <param name="rate" value="10.0"/>
+  </node>
+</launch>

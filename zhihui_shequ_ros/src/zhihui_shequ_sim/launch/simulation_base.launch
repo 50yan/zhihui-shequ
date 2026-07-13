@@ -1,0 +1,39 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community.world"/>
+  <arg name="spawn_x" default="4.15"/>
+  <arg name="spawn_y" default="3.65"/>
+  <arg name="spawn_z" default="0.30"/>
+  <arg name="spawn_yaw" default="3.14159"/>
+
+  <param name="/use_sim_time" value="true"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+  </include>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro '$(find zhihui_shequ_sim)/urdf/smart_car.xacro'"/>
+
+  <node name="robot_state_publisher"
+        pkg="robot_state_publisher"
+        type="robot_state_publisher"
+        output="screen">
+    <param name="publish_frequency" value="30.0"/>
+  </node>
+
+  <node name="reset_spawn_smart_car"
+        pkg="zhihui_shequ_sim"
+        type="reset_spawn_model.py"
+        output="screen">
+    <param name="model_name" value="smart_car"/>
+    <param name="robot_description_param" value="/robot_description"/>
+    <param name="x" value="$(arg spawn_x)"/>
+    <param name="y" value="$(arg spawn_y)"/>
+    <param name="z" value="$(arg spawn_z)"/>
+    <param name="yaw" value="$(arg spawn_yaw)"/>
+  </node>
+</launch>

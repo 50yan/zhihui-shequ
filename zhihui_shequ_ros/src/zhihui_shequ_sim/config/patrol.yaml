@@ -1,0 +1,26 @@
+output_dir: ~/camera
+camera_topic: /camera/image_raw
+move_base_action: /move_base
+goal_frame: map
+server_wait: 60.0
+localization_wait: 20.0
+localization_settle_time: 2.0
+require_localization: true
+goal_timeout: 120.0
+settle_time: 0.8
+capture_camera_wait: 3.0
+continue_on_failure: true
+
+# All goals are map coordinates in metres. Capture is optional per goal.
+waypoints:
+  - {name: start, x: 4.15, y: 3.65, yaw: 3.14159}
+  - {name: north_traffic_light, x: 0.10, y: 3.70, yaw: 2.7600, capture: traffic_north}
+  - {name: people_area_a, x: -0.15, y: 3.25, yaw: 3.14159, capture: people_a}
+  - {name: people_area_b, x: -0.80, y: 0.86, yaw: 3.14159, capture: people_b}
+  - {name: station_room, x: -0.35, y: -2.65, yaw: 3.14159}
+  - {name: south_traffic_light, x: 1.10, y: -3.95, yaw: 3.14159, capture: traffic_south}
+  - {name: plate_area, x: 1.00, y: -2.45, yaw: 0.0, capture: plate}
+  - {name: building_c, x: 0.10, y: -0.65, yaw: 0.0}
+  - {name: building_b, x: 0.10, y: 0.90, yaw: 0.0}
+  - {name: building_a, x: 0.10, y: 2.45, yaw: 0.0}
+  - {name: parking_finish, x: 4.15, y: 3.65, yaw: 3.14159}

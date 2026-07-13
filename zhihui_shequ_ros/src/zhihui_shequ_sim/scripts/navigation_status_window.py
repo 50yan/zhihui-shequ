@@ -5,10 +5,12 @@ import time
 import cv2
 import numpy as np
 import rospy
+from actionlib_msgs.msg import GoalStatus, GoalStatusArray
 from cv_bridge import CvBridge
 from gazebo_msgs.srv import GetModelState
-from rosgraph_msgs.msg import Log
+from geometry_msgs.msg import PoseWithCovarianceStamped
 from sensor_msgs.msg import Image
+from std_msgs.msg import String
 
 
 def yaw_from_quaternion(q):
@@ -29,12 +31,19 @@ class NavigationStatusWindow:
 
         self.bridge = CvBridge()
         self.last_image = None
-        self.current_step = "waiting for mission_controller"
+        self.amcl_pose = None
+        self.navigation_status = "waiting for patrol_navigation"
+        self.current_goal = "-"
+        self.move_base_status = "waiting"
         self.last_capture = "-"
         self.get_model_state = None
 
         rospy.Subscriber(self.camera_topic, Image, self._on_image, queue_size=1)
-        rospy.Subscriber("/rosout_agg", Log, self._on_log, queue_size=50)
+        rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self._on_amcl_pose, queue_size=1)
+        rospy.Subscriber("/move_base/status", GoalStatusArray, self._on_move_base_status, queue_size=1)
+        rospy.Subscriber("/zhihui_shequ/navigation_status", String, self._on_navigation_status, queue_size=10)
+        rospy.Subscriber("/zhihui_shequ/current_goal", String, self._on_current_goal, queue_size=10)
+        rospy.Subscriber("/zhihui_shequ/last_capture", String, self._on_last_capture, queue_size=10)
 
     def _on_image(self, msg):
         try:
@@ -42,14 +51,35 @@ class NavigationStatusWindow:
         except Exception as exc:
             rospy.logwarn("Navigation window camera conversion failed: %s", exc)
 
-    def _on_log(self, msg):
-        text = msg.msg
-        if "Mission step:" in text:
-            self.current_step = text.split("Mission step:", 1)[1].strip()
-        elif text.startswith("Capture ") or "Capture " in text:
-            self.last_capture = text
-        elif "Mission finished" in text:
-            self.current_step = "Mission finished"
+    def _on_amcl_pose(self, msg):
+        self.amcl_pose = msg.pose.pose
+
+    def _on_navigation_status(self, msg):
+        self.navigation_status = msg.data
+
+    def _on_current_goal(self, msg):
+        self.current_goal = msg.data
+
+    def _on_last_capture(self, msg):
+        self.last_capture = msg.data
+
+    def _on_move_base_status(self, msg):
+        if not msg.status_list:
+            return
+        status = msg.status_list[-1].status
+        names = {
+            GoalStatus.PENDING: "pending",
+            GoalStatus.ACTIVE: "active",
+            GoalStatus.PREEMPTED: "preempted",
+            GoalStatus.SUCCEEDED: "succeeded",
+            GoalStatus.ABORTED: "aborted",
+            GoalStatus.REJECTED: "rejected",
+            GoalStatus.PREEMPTING: "preempting",
+            GoalStatus.RECALLING: "recalling",
+            GoalStatus.RECALLED: "recalled",
+            GoalStatus.LOST: "lost",
+        }
+        self.move_base_status = names.get(status, "status=%d" % status)
 
     def _connect_service(self):
         if self.get_model_state is not None:
@@ -61,7 +91,7 @@ class NavigationStatusWindow:
         except Exception:
             return False
 
-    def _read_pose(self):
+    def _read_gazebo_pose(self):
         if not self._connect_service():
             return None
         try:
@@ -72,6 +102,14 @@ class NavigationStatusWindow:
         if not state.success:
             return None
         return state.pose
+
+    def _read_pose(self):
+        if self.amcl_pose is not None:
+            return self.amcl_pose, "AMCL"
+        pose = self._read_gazebo_pose()
+        if pose is not None:
+            return pose, "Gazebo fallback"
+        return None, "waiting"
 
     def _draw_text(self, image, text, x, y, scale=0.55, color=(235, 235, 235), thickness=1):
         cv2.putText(image, text, (x, y), cv2.FONT_HERSHEY_SIMPLEX, scale, color, thickness, cv2.LINE_AA)
@@ -98,7 +136,7 @@ class NavigationStatusWindow:
         image = np.zeros((self.height, self.width, 3), dtype=np.uint8)
         image[:] = (28, 31, 36)
         header_h = 54
-        footer_h = 86
+        footer_h = 122
         body_h = self.height - header_h - footer_h
 
         cv2.rectangle(image, (0, 0), (self.width, header_h), (36, 91, 150), -1)
@@ -107,29 +145,35 @@ class NavigationStatusWindow:
         camera = self._camera_panel(self.width, body_h)
         image[header_h:header_h + body_h, 0:self.width] = camera
 
-        pose = self._read_pose()
-        y0 = self.height - footer_h + 28
+        pose, pose_source = self._read_pose()
+        y0 = self.height - footer_h + 22
         if pose is None:
-            pose_text = "pose: waiting for Gazebo model %s" % self.model_name
+            pose_text = "pose: waiting for /amcl_pose"
         else:
             yaw = math.degrees(yaw_from_quaternion(pose.orientation))
-            pose_text = "pose: x=%.3f  y=%.3f  z=%.3f  yaw=%.1f deg" % (
+            pose_text = "%s pose: x=%.3f  y=%.3f  yaw=%.1f deg" % (
+                pose_source,
                 pose.position.x,
                 pose.position.y,
-                pose.position.z,
                 yaw,
             )
-        self._draw_text(image, pose_text, 20, y0, 0.58, (240, 240, 240), 1)
+        self._draw_text(image, pose_text, 20, y0, 0.54, (240, 240, 240), 1)
 
-        step = self.current_step
-        if len(step) > 92:
-            step = step[:89] + "..."
-        self._draw_text(image, "step: " + step, 20, y0 + 26, 0.52, (220, 230, 245), 1)
+        goal = self.current_goal[:86]
+        status = self.navigation_status[:78]
+        self._draw_text(image, "goal: " + goal, 20, y0 + 24, 0.50, (220, 230, 245), 1)
+        self._draw_text(
+            image,
+            "navigation: %s | move_base: %s" % (status, self.move_base_status),
+            20,
+            y0 + 48,
+            0.46,
+            (190, 210, 235),
+            1,
+        )
 
-        capture = self.last_capture
-        if len(capture) > 92:
-            capture = capture[:89] + "..."
-        self._draw_text(image, "last capture: " + capture, 20, y0 + 52, 0.46, (175, 188, 205), 1)
+        capture = self.last_capture[:82]
+        self._draw_text(image, "last capture: " + capture, 20, y0 + 72, 0.42, (175, 188, 205), 1)
         return image
 
     def run(self):

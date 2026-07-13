@@ -4,214 +4,224 @@
     <plugin name="ros_api" filename="libgazebo_ros_api_plugin.so"/>
 
     <gravity>0 0 -9.8</gravity>
+    <physics type="ode">
+      <real_time_update_rate>1000</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+    </physics>
     <scene>
-      <ambient>0.45 0.45 0.45 1</ambient>
-      <background>0.72 0.74 0.76 1</background>
+      <ambient>0.55 0.55 0.55 1</ambient>
+      <background>0.78 0.82 0.86 1</background>
       <shadows>true</shadows>
     </scene>
     <gui fullscreen="0">
       <camera name="user_camera">
-        <pose>0 -8 7 1.05 0 0</pose>
+        <pose>0 -8.8 9.0 0 0.78 1.5708</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
 
     <light name="sun" type="directional">
       <pose>0 0 10 0 0 0</pose>
-      <diffuse>0.9 0.9 0.85 1</diffuse>
-      <specular>0.2 0.2 0.2 1</specular>
+      <diffuse>0.95 0.95 0.90 1</diffuse>
+      <specular>0.25 0.25 0.25 1</specular>
       <direction>-0.4 0.2 -0.9</direction>
     </light>
 
+    <!-- The official field uses the existing 10 m x 10 m coordinate system. -->
     <model name="map_floor">
       <static>true</static>
-      <pose>0 0 0 0 0 0</pose>
-      <link name="link">
-        <collision name="collision"><geometry><box><size>10 10 0.04</size></box></geometry></collision>
-        <visual name="black_map"><pose>0 0 0.025 0 0 0</pose><geometry><box><size>10 10 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <link name="floor">
+        <collision name="floor_collision">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><box><size>10 10 0.08</size></box></geometry>
+          <surface>
+            <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
+          </surface>
+        </collision>
+        <visual name="black_floor">
+          <pose>0 0 0.005 0 0 0</pose>
+          <geometry><box><size>10 10 0.08</size></box></geometry>
+          <material><ambient>0.025 0.025 0.025 1</ambient><diffuse>0.025 0.025 0.025 1</diffuse></material>
+        </visual>
       </link>
     </model>
 
+    <!-- White guide lines are 1 mm high visuals only, so they cannot block wheels. -->
     <model name="map_white_lines">
       <static>true</static>
       <link name="lines">
-        <!-- A1 outer_bottom | 0-10坐标 中心线坐标: (0,0) 到 (10,0) | 0-10占地: 左下(0,-0.03) 到 右上(10,0.03) | Gazebo中心: (0,-4.55,0.0405), Gazebo尺寸: 9.1 x 0.06 x 0.001 -->
-        <visual name="A1_outer_bottom">
-          <pose>0 -4.55 0.0405 0 0 0</pose>
-          <geometry><box><size>9.1 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- A2 outer_left | 0-10坐标 中心线坐标: (0,0) 到 (0,10) | 0-10占地: 左下(-0.03,0) 到 右上(0.03,10) | Gazebo中心: (-4.55,0,0.0405), Gazebo尺寸: 0.06 x 9.1 x 0.001 -->
-        <visual name="A2_outer_left">
-          <pose>-4.55 0 0.045 0 0 0</pose>
-          <geometry><box><size>0.06 9.1 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- A3 outer_top | 0-10坐标 中心线坐标: (0,10) 到 (10,10) | 0-10占地: 左下(0,9.97) 到 右上(10,10.03) | Gazebo中心: (0,4.55,0.0405), Gazebo尺寸: 9.1 x 0.06 x 0.001 -->
-        <visual name="A3_outer_top">
-          <pose>0 4.55 0.0405 0 0 0</pose>
-          <geometry><box><size>9.1 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- A4 outer_right | 0-10坐标 中心线坐标: (10,0) 到 (10,10) | 0-10占地: 左下(9.97,0) 到 右上(10.03,10) | Gazebo中心: (4.55,0,0.0405), Gazebo尺寸: 0.06 x 9.1 x 0.001 -->
-        <visual name="A4_outer_right">
-          <pose>4.55 0 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 9.1 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- B1 parking_top | 0-10坐标 中心线坐标: (8,8.5) 到 (10,8.5) | 0-10占地: 左下(8,8.47) 到 右上(10,8.53) | Gazebo中心: (3.64,3.185,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="B1_parking_top">
-          <pose>3.64 3.185 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- B2 parking_mid | 0-10坐标 中心线坐标: (8,4.5) 到 (10,4.5) | 0-10占地: 左下(8,4.47) 到 右上(10,4.53) | Gazebo中心: (3.64,-0.455,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="B2_parking_mid">
-          <pose>3.64 -0.455 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- B3 parking_lower_mid | 0-10坐标 中心线坐标: (8,3) 到 (10,3) | 0-10占地: 左下(8,2.97) 到 右上(10,3.03) | Gazebo中心: (3.64,-1.82,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="B3_parking_lower_mid">
-          <pose>3.64 -1.82 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- B4 parking_bottom | 0-10坐标 中心线坐标: (8,1.5) 到 (10,1.5) | 0-10占地: 左下(8,1.47) 到 右上(10,1.53) | Gazebo中心: (3.64,-3.185,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="B4_parking_bottom">
-          <pose>3.64 -3.185 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- B5 right_lane_left | 0-10坐标 中心线坐标: (8,0) 到 (8,10) | 0-10占地: 左下(7.97,0) 到 右上(8.03,10) | Gazebo中心: (2.73,0,0.0405), Gazebo尺寸: 0.06 x 9.1 x 0.001 -->
-        <visual name="B5_right_lane_left">
-          <pose>2.73 0 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 9.1 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- C1 lower_box_top | 0-10坐标 中心线坐标: (1.5,4.5) 到 (3.5,4.5) | 0-10占地: 左下(1.5,4.47) 到 右上(3.5,4.53) | Gazebo中心: (-2.275,-0.455,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="C1_lower_box_top">
-          <pose>-2.275 -0.455 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- C2 lower_box_left | 0-10坐标 中心线坐标: (1.5,1.5) 到 (1.5,4.5) | 0-10占地: 左下(1.47,1.5) 到 右上(1.53,4.5) | Gazebo中心: (-3.185,-1.82,0.0405), Gazebo尺寸: 0.06 x 2.73 x 0.001 -->
-        <visual name="C2_lower_box_left">
-          <pose>-3.185 -1.82 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 2.73 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- C3 lower_box_mid | 0-10坐标 中心线坐标: (1.5,3) 到 (3.5,3) | 0-10占地: 左下(1.5,2.97) 到 右上(3.5,3.03) | Gazebo中心: (-2.275,-1.82,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="C3_lower_box_mid">
-          <pose>-2.275 -1.82 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- C4 lower_box_bottom | 0-10坐标 中心线坐标: (1.5,1.5) 到 (3.5,1.5) | 0-10占地: 左下(1.5,1.47) 到 右上(3.5,1.53) | Gazebo中心: (-2.275,-3.185,0.0405), Gazebo尺寸: 1.82 x 0.06 x 0.001 -->
-        <visual name="C4_lower_box_bottom">
-          <pose>-2.275 -3.185 0.0405 0 0 0</pose>
-          <geometry><box><size>1.82 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- C5 lower_box_right | 0-10坐标 中心线坐标: (3.5,1.5) 到 (3.5,4.5) | 0-10占地: 左下(3.47,1.5) 到 右上(3.53,4.5) | Gazebo中心: (-1.365,-1.82,0.0405), Gazebo尺寸: 0.06 x 2.73 x 0.001 -->
-        <visual name="C5_lower_box_right">
-          <pose>-1.365 -1.82 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 2.73 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- D1 gate_h | 0-10坐标 中心线坐标: (3.5,3) 到 (4.5,3) | 0-10占地: 左下(3.5,2.97) 到 右上(4.5,3.03) | Gazebo中心: (-0.91,-1.82,0.0405), Gazebo尺寸: 0.91 x 0.06 x 0.001 -->
-        <visual name="D1_gate_h">
-          <pose>-0.91 -1.82 0.0405 0 0 0</pose>
-          <geometry><box><size>0.91 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- D2 top_gate_v | 0-10坐标 中心线坐标: (4.5,8.5) 到 (4.5,10) | 0-10占地: 左下(4.47,8.5) 到 右上(4.53,10) | Gazebo中心: (-0.455,3.868,0.0405), Gazebo尺寸: 0.06 x 1.365 x 0.001 -->
-        <visual name="D2_top_gate_v">
-          <pose>-0.455 3.868 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 1.365 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- E1 upper_box_bottom | 0-10坐标 中心线坐标: (1.5,6.5) 到 (4.5,6.5) | 0-10占地: 左下(1.5,6.47) 到 右上(4.5,6.53) | Gazebo中心: (-1.82,1.365,0.0405), Gazebo尺寸: 2.73 x 0.06 x 0.001 -->
-        <visual name="E1_upper_box_bottom">
-          <pose>-1.82 1.365 0.0405 0 0 0</pose>
-          <geometry><box><size>2.73 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- E2 upper_box_left | 0-10坐标 中心线坐标: (1.5,6.5) 到 (1.5,8.5) | 0-10占地: 左下(1.47,6.5) 到 右上(1.53,8.5) | Gazebo中心: (-3.185,2.275,0.0405), Gazebo尺寸: 0.06 x 1.82 x 0.001 -->
-        <visual name="E2_upper_box_left">
-          <pose>-3.185 2.275 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 1.82 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- E3 upper_box_top | 0-10坐标 中心线坐标: (1.5,8.5) 到 (6,8.5) | 0-10占地: 左下(1.5,8.47) 到 右上(6,8.53) | Gazebo中心: (-1.138,3.185,0.0405), Gazebo尺寸: 4.095 x 0.06 x 0.001 -->
-        <visual name="E3_upper_box_top">
-          <pose>-1.138 3.185 0.0405 0 0 0</pose>
-          <geometry><box><size>4.095 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- E4 center_block_left | 0-10坐标 中心线坐标: (4.5,1.5) 到 (4.5,6.5) | 0-10占地: 左下(4.47,1.5) 到 右上(4.53,6.5) | Gazebo中心: (-0.455,-0.91,0.0405), Gazebo尺寸: 0.06 x 4.55 x 0.001 -->
-        <visual name="E4_center_block_left">
-          <pose>-0.455 -0.91 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 4.55 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- E5 center_block_right | 0-10坐标 中心线坐标: (6,1.5) 到 (6,8.5) | 0-10占地: 左下(5.97,1.5) 到 右上(6.03,8.5) | Gazebo中心: (0.91,0,0.0405), Gazebo尺寸: 0.06 x 6.37 x 0.001 -->
-        <visual name="E5_center_block_right">
-          <pose>0.91 0 0.0405 0 0 0</pose>
-          <geometry><box><size>0.06 6.37 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
-        <!-- E6 center_block_bottom | 0-10坐标 中心线坐标: (4.5,1.5) 到 (6,1.5) | 0-10占地: 左下(4.5,1.47) 到 右上(6,1.53) | Gazebo中心: (0.228,-3.185,0.0405), Gazebo尺寸: 1.365 x 0.06 x 0.001 -->
-        <visual name="E6_center_block_bottom">
-          <pose>0.228 -3.185 0.0405 0 0 0</pose>
-          <geometry><box><size>1.365 0.06 0.001</size></box></geometry>
-          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
-        </visual>
+        <visual name="outer_bottom"><pose>0 -4.75 0.041 0 0 0</pose><geometry><box><size>9.5 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="outer_top"><pose>0 4.75 0.041 0 0 0</pose><geometry><box><size>9.5 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="outer_left"><pose>-4.75 0 0.041 0 0 0</pose><geometry><box><size>0.05 9.5 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="outer_right"><pose>4.75 0 0.041 0 0 0</pose><geometry><box><size>0.05 9.5 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="parking_left"><pose>3.0 0 0.041 0 0 0</pose><geometry><box><size>0.05 9.5 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="parking_slot_1"><pose>3.88 2.55 0.041 0 0 0</pose><geometry><box><size>1.75 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="parking_slot_2"><pose>3.88 0.85 0.041 0 0 0</pose><geometry><box><size>1.75 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="parking_slot_3"><pose>3.88 -0.85 0.041 0 0 0</pose><geometry><box><size>1.75 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="parking_slot_4"><pose>3.88 -2.55 0.041 0 0 0</pose><geometry><box><size>1.75 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="people_a_top"><pose>-2.15 3.55 0.041 0 0 0</pose><geometry><box><size>3.3 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <!-- Official marked A-area width: 3.55 - 2.95 = 0.60 m. -->
+        <visual name="people_a_left"><pose>-3.8 3.25 0.041 0 0 0</pose><geometry><box><size>0.05 0.60 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="people_a_bottom"><pose>-2.15 2.95 0.041 0 0 0</pose><geometry><box><size>3.3 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="people_b_top"><pose>-2.45 1.15 0.041 0 0 0</pose><geometry><box><size>2.7 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="left_block_left"><pose>-3.8 -1.45 0.041 0 0 0</pose><geometry><box><size>0.05 5.2 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="left_block_right"><pose>-1.1 -1.45 0.041 0 0 0</pose><geometry><box><size>0.05 5.2 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <!-- Official marked bottom width: -4.15 - (-4.75) = 0.60 m. -->
+        <visual name="left_block_bottom"><pose>-2.45 -4.15 0.041 0 0 0</pose><geometry><box><size>2.7 0.05 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="central_left"><pose>0.55 0.0 0.041 0 0 0</pose><geometry><box><size>0.05 7.0 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
+        <visual name="central_right"><pose>2.4 0.0 0.041 0 0 0</pose><geometry><box><size>0.05 7.0 0.001</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material></visual>
       </link>
     </model>
+
     <model name="outer_walls">
       <static>true</static>
       <link name="walls">
-        <collision name="north_collision"><pose>0 5.05 0.28 0 0 0</pose><geometry><box><size>10.4 0.12 0.55</size></box></geometry></collision>
-        <collision name="south_collision"><pose>0 -5.05 0.28 0 0 0</pose><geometry><box><size>10.4 0.12 0.55</size></box></geometry></collision>
-        <collision name="east_collision"><pose>5.05 0 0.28 0 0 0</pose><geometry><box><size>0.12 10.4 0.55</size></box></geometry></collision>
-        <collision name="west_collision"><pose>-5.05 0 0.28 0 0 0</pose><geometry><box><size>0.12 10.4 0.55</size></box></geometry></collision>
-        <visual name="north"><pose>0 5.05 0.28 0 0 0</pose><geometry><box><size>10.4 0.12 0.55</size></box></geometry><material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material></visual>
-        <visual name="south"><pose>0 -5.05 0.28 0 0 0</pose><geometry><box><size>10.4 0.12 0.55</size></box></geometry><material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material></visual>
-        <visual name="east"><pose>5.05 0 0.28 0 0 0</pose><geometry><box><size>0.12 10.4 0.55</size></box></geometry><material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material></visual>
-        <visual name="west"><pose>-5.05 0 0.28 0 0 0</pose><geometry><box><size>0.12 10.4 0.55</size></box></geometry><material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material></visual>
-      </link>
-    </model>
-    <model name="people_area_1_board">
-      <static>true</static>
-      <pose>-1.45 1.75 0.65 0 0 0</pose>
-      <link name="panel">
-        <visual name="board"><geometry><box><size>2.0 0.08 1.25</size></box></geometry><material><ambient>0.92 0.92 0.86 1</ambient><diffuse>0.92 0.92 0.86 1</diffuse></material></visual>
-        <visual name="resident_1"><pose>-0.65 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.0 0.7 0.8 1</ambient><diffuse>0.0 0.7 0.8 1</diffuse></material></visual>
-        <visual name="outsider"><pose>-0.25 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.95 0.1 0.1 1</ambient><diffuse>0.95 0.1 0.1 1</diffuse></material></visual>
-        <visual name="resident_2"><pose>0.15 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.1 0.35 0.95 1</ambient><diffuse>0.1 0.35 0.95 1</diffuse></material></visual>
-        <visual name="resident_3"><pose>0.55 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.95 0.65 0.1 1</ambient><diffuse>0.95 0.65 0.1 1</diffuse></material></visual>
+        <collision name="north_collision"><pose>0 4.80 0.30 0 0 0</pose><geometry><box><size>9.70 0.10 0.60</size></box></geometry></collision>
+        <collision name="south_collision"><pose>0 -4.80 0.30 0 0 0</pose><geometry><box><size>9.70 0.10 0.60</size></box></geometry></collision>
+        <collision name="east_collision"><pose>4.80 0 0.30 0 0 0</pose><geometry><box><size>0.10 9.70 0.60</size></box></geometry></collision>
+        <collision name="west_collision"><pose>-4.80 0 0.30 0 0 0</pose><geometry><box><size>0.10 9.70 0.60</size></box></geometry></collision>
+        <visual name="north"><pose>0 4.80 0.30 0 0 0</pose><geometry><box><size>9.70 0.10 0.60</size></box></geometry><material><ambient>0.35 0.35 0.37 1</ambient><diffuse>0.35 0.35 0.37 1</diffuse></material></visual>
+        <visual name="south"><pose>0 -4.80 0.30 0 0 0</pose><geometry><box><size>9.70 0.10 0.60</size></box></geometry><material><ambient>0.35 0.35 0.37 1</ambient><diffuse>0.35 0.35 0.37 1</diffuse></material></visual>
+        <visual name="east"><pose>4.80 0 0.30 0 0 0</pose><geometry><box><size>0.10 9.70 0.60</size></box></geometry><material><ambient>0.35 0.35 0.37 1</ambient><diffuse>0.35 0.35 0.37 1</diffuse></material></visual>
+        <visual name="west"><pose>-4.80 0 0.30 0 0 0</pose><geometry><box><size>0.10 9.70 0.60</size></box></geometry><material><ambient>0.35 0.35 0.37 1</ambient><diffuse>0.35 0.35 0.37 1</diffuse></material></visual>
       </link>
     </model>
 
-    <model name="people_area_2_board">
+    <!-- Low physical boundaries make all three official 0.60 m markings lidar-visible. -->
+    <model name="field_boundaries">
       <static>true</static>
-      <pose>-1.75 -1.35 0.65 0 0 0</pose>
-      <link name="panel">
-        <visual name="board"><geometry><box><size>2.0 0.08 1.25</size></box></geometry><material><ambient>0.92 0.92 0.86 1</ambient><diffuse>0.92 0.92 0.86 1</diffuse></material></visual>
-        <visual name="resident_1"><pose>-0.55 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.8 0.1 0.8 1</ambient><diffuse>0.8 0.1 0.8 1</diffuse></material></visual>
-        <visual name="resident_2"><pose>-0.15 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.1 0.35 0.95 1</ambient><diffuse>0.1 0.35 0.95 1</diffuse></material></visual>
-        <visual name="resident_3"><pose>0.25 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material></visual>
-        <visual name="resident_4"><pose>0.65 -0.06 -0.05 0 0 0</pose><geometry><cylinder><radius>0.14</radius><length>1.0</length></cylinder></geometry><material><ambient>0.95 0.65 0.1 1</ambient><diffuse>0.95 0.65 0.1 1</diffuse></material></visual>
+      <link name="boundaries">
+        <collision name="people_a_top_boundary"><pose>-2.15 3.55 0.175 0 0 0</pose><geometry><box><size>3.30 0.05 0.35</size></box></geometry></collision>
+        <collision name="people_a_bottom_boundary"><pose>-2.15 2.95 0.175 0 0 0</pose><geometry><box><size>3.30 0.05 0.35</size></box></geometry></collision>
+        <collision name="people_a_left_boundary"><pose>-3.80 3.25 0.175 0 0 0</pose><geometry><box><size>0.05 0.60 0.35</size></box></geometry></collision>
+        <collision name="parking_boundary"><pose>3.00 0 0.175 0 0 0</pose><geometry><box><size>0.05 6.40 0.35</size></box></geometry></collision>
+        <collision name="left_block_bottom_boundary"><pose>-2.45 -4.15 0.175 0 0 0</pose><geometry><box><size>2.70 0.05 0.35</size></box></geometry></collision>
+        <visual name="people_a_top_wall"><pose>-2.15 3.55 0.175 0 0 0</pose><geometry><box><size>3.30 0.05 0.35</size></box></geometry><material><ambient>0.65 0.65 0.67 1</ambient><diffuse>0.65 0.65 0.67 1</diffuse></material></visual>
+        <visual name="people_a_bottom_wall"><pose>-2.15 2.95 0.175 0 0 0</pose><geometry><box><size>3.30 0.05 0.35</size></box></geometry><material><ambient>0.65 0.65 0.67 1</ambient><diffuse>0.65 0.65 0.67 1</diffuse></material></visual>
+        <visual name="people_a_left_wall"><pose>-3.80 3.25 0.175 0 0 0</pose><geometry><box><size>0.05 0.60 0.35</size></box></geometry><material><ambient>0.65 0.65 0.67 1</ambient><diffuse>0.65 0.65 0.67 1</diffuse></material></visual>
+        <visual name="parking_wall"><pose>3.00 0 0.175 0 0 0</pose><geometry><box><size>0.05 6.40 0.35</size></box></geometry><material><ambient>0.65 0.65 0.67 1</ambient><diffuse>0.65 0.65 0.67 1</diffuse></material></visual>
+        <visual name="left_block_bottom_wall"><pose>-2.45 -4.15 0.175 0 0 0</pose><geometry><box><size>2.70 0.05 0.35</size></box></geometry><material><ambient>0.65 0.65 0.67 1</ambient><diffuse>0.65 0.65 0.67 1</diffuse></material></visual>
       </link>
     </model>
 
-    <model name="plate_board">
-      <static>true</static>
-      <pose>4.05 -2.2 0.65 0 0 -1.5708</pose>
+    <!-- A and B inspection boards. Their thin collisions are visible to lidar. -->
+    <model name="people_area_a">
+      <static>true</static><pose>-2.15 3.25 0.68 0 0 0</pose>
+      <link name="board">
+        <collision name="board_collision"><geometry><box><size>2.7 0.08 1.25</size></box></geometry></collision>
+        <visual name="board"><geometry><box><size>2.7 0.08 1.25</size></box></geometry><material><ambient>0.92 0.92 0.86 1</ambient><diffuse>0.92 0.92 0.86 1</diffuse></material></visual>
+        <visual name="person_cyan"><pose>-0.95 -0.07 -0.05 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.0 0.75 0.82 1</ambient><diffuse>0.0 0.75 0.82 1</diffuse></material></visual>
+        <visual name="person_red"><pose>-0.48 -0.07 -0.05 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.92 0.05 0.08 1</ambient><diffuse>0.92 0.05 0.08 1</diffuse></material></visual>
+        <visual name="person_black"><pose>0 -0.07 -0.05 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.02 0.02 0.02 1</ambient><diffuse>0.02 0.02 0.02 1</diffuse></material></visual>
+        <visual name="person_orange"><pose>0.48 -0.07 -0.05 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.95 0.58 0.10 1</ambient><diffuse>0.95 0.58 0.10 1</diffuse></material></visual>
+        <visual name="person_green"><pose>0.95 -0.07 -0.05 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.25 0.70 0.18 1</ambient><diffuse>0.25 0.70 0.18 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="people_area_b">
+      <static>true</static><pose>-2.45 0.86 0.68 0 0 0</pose>
+      <link name="board">
+        <collision name="board_collision"><geometry><box><size>2.25 0.08 1.25</size></box></geometry></collision>
+        <visual name="board"><geometry><box><size>2.25 0.08 1.25</size></box></geometry><material><ambient>0.92 0.92 0.86 1</ambient><diffuse>0.92 0.92 0.86 1</diffuse></material></visual>
+        <visual name="instruction_sign"><pose>-0.92 -0.08 0.40 0 0 0</pose><geometry><cylinder><radius>0.12</radius><length>0.18</length></cylinder></geometry><material><ambient>0.55 0.55 0.55 1</ambient><diffuse>0.55 0.55 0.55 1</diffuse></material></visual>
+        <visual name="person_red"><pose>-0.65 -0.07 -0.06 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.92 0.05 0.08 1</ambient><diffuse>0.92 0.05 0.08 1</diffuse></material></visual>
+        <visual name="person_purple"><pose>-0.22 -0.07 -0.06 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.48 0.18 0.90 1</ambient><diffuse>0.48 0.18 0.90 1</diffuse></material></visual>
+        <visual name="person_blue"><pose>0.22 -0.07 -0.06 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.05 0.30 0.78 1</ambient><diffuse>0.05 0.30 0.78 1</diffuse></material></visual>
+        <visual name="person_black"><pose>0.65 -0.07 -0.06 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.02 0.02 0.02 1</ambient><diffuse>0.02 0.02 0.02 1</diffuse></material></visual>
+        <visual name="person_orange"><pose>0.98 -0.07 -0.06 0 0 0</pose><geometry><cylinder><radius>0.13</radius><length>0.95</length></cylinder></geometry><material><ambient>0.95 0.58 0.10 1</ambient><diffuse>0.95 0.58 0.10 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="building_a">
+      <static>true</static><pose>1.50 2.45 0.70 0 0 0</pose>
+      <link name="building"><collision name="collision"><geometry><box><size>1.80 1.05 1.40</size></box></geometry></collision><visual name="body"><geometry><box><size>1.80 1.05 1.40</size></box></geometry><material><ambient>0.28 0.72 0.64 1</ambient><diffuse>0.28 0.72 0.64 1</diffuse></material></visual></link>
+    </model>
+    <model name="building_b">
+      <static>true</static><pose>1.50 0.90 0.70 0 0 0</pose>
+      <link name="building"><collision name="collision"><geometry><box><size>1.80 1.05 1.40</size></box></geometry></collision><visual name="body"><geometry><box><size>1.80 1.05 1.40</size></box></geometry><material><ambient>0.30 0.68 0.62 1</ambient><diffuse>0.30 0.68 0.62 1</diffuse></material></visual></link>
+    </model>
+    <model name="building_c">
+      <static>true</static><pose>1.50 -0.65 0.70 0 0 0</pose>
+      <link name="building"><collision name="collision"><geometry><box><size>1.80 1.05 1.40</size></box></geometry></collision><visual name="body"><geometry><box><size>1.80 1.05 1.40</size></box></geometry><material><ambient>0.32 0.70 0.62 1</ambient><diffuse>0.32 0.70 0.62 1</diffuse></material></visual></link>
+    </model>
+    <model name="building_d">
+      <static>true</static><pose>-3.25 -2.45 0.75 0 0 0</pose>
+      <link name="building"><collision name="collision"><geometry><box><size>0.75 2.25 1.50</size></box></geometry></collision><visual name="body"><geometry><box><size>0.75 2.25 1.50</size></box></geometry><material><ambient>0.28 0.72 0.64 1</ambient><diffuse>0.28 0.72 0.64 1</diffuse></material></visual></link>
+    </model>
+    <model name="station_room">
+      <static>true</static><pose>-1.95 -2.65 0.65 0 0 0</pose>
+      <link name="room"><collision name="collision"><geometry><box><size>1.45 1.35 1.30</size></box></geometry></collision><visual name="body"><geometry><box><size>1.45 1.35 1.30</size></box></geometry><material><ambient>0.92 0.55 0.08 1</ambient><diffuse>0.92 0.55 0.08 1</diffuse></material></visual></link>
+    </model>
+
+    <!-- North zebra crossing. -->
+    <model name="zebra_crossing_north">
+      <static>true</static><link name="stripes">
+        <visual name="s1"><pose>-0.75 3.82 0.043 0 0 0</pose><geometry><box><size>0.14 1.35 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s2"><pose>-0.45 3.82 0.043 0 0 0</pose><geometry><box><size>0.14 1.35 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s3"><pose>-0.15 3.82 0.043 0 0 0</pose><geometry><box><size>0.14 1.35 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s4"><pose>0.15 3.82 0.043 0 0 0</pose><geometry><box><size>0.14 1.35 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s5"><pose>0.45 3.82 0.043 0 0 0</pose><geometry><box><size>0.14 1.35 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s6"><pose>0.75 3.82 0.043 0 0 0</pose><geometry><box><size>0.14 1.35 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="zebra_crossing_south">
+      <static>true</static><link name="stripes">
+        <visual name="s1"><pose>-0.75 -3.45 0.043 0 0 0</pose><geometry><box><size>0.14 1.25 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s2"><pose>-0.45 -3.45 0.043 0 0 0</pose><geometry><box><size>0.14 1.25 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s3"><pose>-0.15 -3.45 0.043 0 0 0</pose><geometry><box><size>0.14 1.25 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s4"><pose>0.15 -3.45 0.043 0 0 0</pose><geometry><box><size>0.14 1.25 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s5"><pose>0.45 -3.45 0.043 0 0 0</pose><geometry><box><size>0.14 1.25 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+        <visual name="s6"><pose>0.75 -3.45 0.043 0 0 0</pose><geometry><box><size>0.14 1.25 0.002</size></box></geometry><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.85 0.85 0.85 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="traffic_light_north">
+      <static>true</static><pose>-1.15 4.20 0.85 0 0 0</pose>
+      <link name="light">
+        <collision name="body_collision"><geometry><box><size>0.36 0.18 1.25</size></box></geometry></collision>
+        <visual name="body"><geometry><box><size>0.36 0.18 1.25</size></box></geometry><material><ambient>0.08 0.09 0.10 1</ambient><diffuse>0.08 0.09 0.10 1</diffuse></material></visual>
+        <visual name="red"><pose>0 -0.11 0.38 1.5708 0 0</pose><geometry><cylinder><radius>0.11</radius><length>0.04</length></cylinder></geometry><material><ambient>1 0.02 0.02 1</ambient><diffuse>1 0.02 0.02 1</diffuse></material></visual>
+        <visual name="yellow"><pose>0 -0.11 0 1.5708 0 0</pose><geometry><cylinder><radius>0.11</radius><length>0.04</length></cylinder></geometry><material><ambient>1 0.70 0.02 1</ambient><diffuse>1 0.70 0.02 1</diffuse></material></visual>
+        <visual name="green"><pose>0 -0.11 -0.38 1.5708 0 0</pose><geometry><cylinder><radius>0.11</radius><length>0.04</length></cylinder></geometry><material><ambient>0.18 0.85 0.10 1</ambient><diffuse>0.18 0.85 0.10 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="traffic_light_south">
+      <static>true</static><pose>0 -3.95 0.85 0 0 1.5708</pose>
+      <link name="light">
+        <collision name="body_collision"><geometry><box><size>0.36 0.18 1.25</size></box></geometry></collision>
+        <visual name="body"><geometry><box><size>0.36 0.18 1.25</size></box></geometry><material><ambient>0.08 0.09 0.10 1</ambient><diffuse>0.08 0.09 0.10 1</diffuse></material></visual>
+        <visual name="green"><pose>0 -0.11 0.38 1.5708 0 0</pose><geometry><cylinder><radius>0.11</radius><length>0.04</length></cylinder></geometry><material><ambient>0.18 0.85 0.10 1</ambient><diffuse>0.18 0.85 0.10 1</diffuse></material></visual>
+        <visual name="yellow"><pose>0 -0.11 0 1.5708 0 0</pose><geometry><cylinder><radius>0.11</radius><length>0.04</length></cylinder></geometry><material><ambient>1 0.70 0.02 1</ambient><diffuse>1 0.70 0.02 1</diffuse></material></visual>
+        <visual name="red"><pose>0 -0.11 -0.38 1.5708 0 0</pose><geometry><cylinder><radius>0.11</radius><length>0.04</length></cylinder></geometry><material><ambient>1 0.02 0.02 1</ambient><diffuse>1 0.02 0.02 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <!-- Official marked right width: x=3.00 - building east face x=2.40 = 0.60 m. -->
+    <model name="parking_zone">
+      <static>true</static><link name="parking_signs">
+        <visual name="parking_sign"><pose>3.90 3.15 0.55 0 0 0</pose><geometry><box><size>0.72 0.10 0.90</size></box></geometry><material><ambient>0.05 0.25 0.82 1</ambient><diffuse>0.05 0.25 0.82 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="parked_car_1">
+      <static>true</static><pose>3.90 -1.70 0.22 0 0 0</pose><link name="car"><collision name="collision"><geometry><box><size>1.15 0.55 0.38</size></box></geometry></collision><visual name="body"><geometry><box><size>1.15 0.55 0.38</size></box></geometry><material><ambient>0.08 0.65 0.85 1</ambient><diffuse>0.08 0.65 0.85 1</diffuse></material></visual></link>
+    </model>
+    <model name="parked_car_2">
+      <static>true</static><pose>3.90 0.00 0.22 0 0 0</pose><link name="car"><collision name="collision"><geometry><box><size>1.15 0.55 0.38</size></box></geometry></collision><visual name="body"><geometry><box><size>1.15 0.55 0.38</size></box></geometry><material><ambient>0.08 0.65 0.85 1</ambient><diffuse>0.08 0.65 0.85 1</diffuse></material></visual></link>
+    </model>
+    <model name="parked_car_3">
+      <static>true</static><pose>3.90 1.70 0.22 0 0 0</pose><link name="car"><collision name="collision"><geometry><box><size>1.15 0.55 0.38</size></box></geometry></collision><visual name="body"><geometry><box><size>1.15 0.55 0.38</size></box></geometry><material><ambient>0.08 0.65 0.85 1</ambient><diffuse>0.08 0.65 0.85 1</diffuse></material></visual></link>
+    </model>
+
+    <model name="plate_targets">
+      <static>true</static><pose>2.18 -2.45 0.60 0 0 -1.5708</pose>
       <link name="panel">
-        <visual name="board"><geometry><box><size>1.5 0.08 1.1</size></box></geometry><material><ambient>0.86 0.86 0.86 1</ambient><diffuse>0.86 0.86 0.86 1</diffuse></material></visual>
-        <visual name="plate"><pose>0 -0.06 0.08 0 0 0</pose><geometry><box><size>0.9 0.04 0.24</size></box></geometry><material><ambient>0.05 0.20 0.90 1</ambient><diffuse>0.05 0.20 0.90 1</diffuse></material></visual>
+        <collision name="panel_collision"><geometry><box><size>1.55 0.08 1.05</size></box></geometry></collision>
+        <visual name="panel"><geometry><box><size>1.55 0.08 1.05</size></box></geometry><material><ambient>0.82 0.82 0.82 1</ambient><diffuse>0.82 0.82 0.82 1</diffuse></material></visual>
+        <visual name="plate_blue"><pose>0 -0.06 0.18 0 0 0</pose><geometry><box><size>0.90 0.04 0.22</size></box></geometry><material><ambient>0.02 0.22 0.92 1</ambient><diffuse>0.02 0.22 0.92 1</diffuse></material></visual>
+        <visual name="plate_yellow"><pose>0 -0.06 -0.22 0 0 0</pose><geometry><box><size>0.90 0.04 0.22</size></box></geometry><material><ambient>0.95 0.66 0.04 1</ambient><diffuse>0.95 0.66 0.04 1</diffuse></material></visual>
       </link>
     </model>
   </world>
