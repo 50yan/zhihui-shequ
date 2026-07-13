@@ -1,7 +1,7 @@
 <launch>
   <arg name="gui" default="true"/>
   <arg name="paused" default="false"/>
-  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community.world"/>
+  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community_0_10.world"/>
   <arg name="spawn_x" default="4.15"/>
   <arg name="spawn_y" default="3.65"/>
   <arg name="spawn_z" default="0.30"/>

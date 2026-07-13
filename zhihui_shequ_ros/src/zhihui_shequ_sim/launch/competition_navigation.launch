@@ -2,9 +2,9 @@
   <arg name="gui" default="true"/>
   <arg name="run_patrol" default="true"/>
   <arg name="show_camera_window" default="true"/>
-  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community.world"/>
-  <arg name="map_file" default="$(find zhihui_shequ_sim)/maps/smart_community_slam.yaml"/>
-  <arg name="patrol_config" default="$(find zhihui_shequ_sim)/config/patrol.yaml"/>
+  <arg name="world" default="$(find zhihui_shequ_sim)/worlds/smart_community_0_10.world"/>
+  <arg name="map_file" default="$(find zhihui_shequ_sim)/maps/smart_community_0_10.yaml"/>
+  <arg name="patrol_config" default="$(find zhihui_shequ_sim)/config/patrol_0_10.yaml"/>
 
   <include file="$(find zhihui_shequ_sim)/launch/simulation_base.launch">
     <arg name="gui" value="$(arg gui)"/>

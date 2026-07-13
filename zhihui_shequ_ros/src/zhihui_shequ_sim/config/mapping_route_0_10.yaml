@@ -1,0 +1,27 @@
+cmd_vel_topic: /cmd_vel
+odom_topic: /odom
+scan_topic: /scan
+scan_timeout: 1.0
+max_linear: 0.45
+max_angular: 0.90
+distance_tolerance: 0.18
+obstacle_stop_distance: 0.42
+avoidance_angular: 0.75
+avoid_turn_duration: 1.0
+avoid_forward_duration: 1.2
+avoid_forward_speed: 0.18
+waypoint_timeout: 90.0
+
+# Collision-free coverage route for smart_community_0_10.world.
+waypoints:
+  - {name: start, x: 4.15, y: 3.65}
+  - {name: north_east, x: 3.50, y: 4.20}
+  - {name: north_west, x: -4.20, y: 4.20}
+  - {name: west_middle, x: -4.20, y: 0.00}
+  - {name: west_south, x: -4.20, y: -4.20}
+  - {name: south_east, x: 3.50, y: -4.20}
+  - {name: central_south, x: 0.00, y: -3.20}
+  - {name: central_middle, x: 0.00, y: 0.00}
+  - {name: central_north, x: 0.00, y: 3.20}
+  - {name: north_return, x: 3.50, y: 4.20}
+  - {name: finish, x: 4.15, y: 3.65}

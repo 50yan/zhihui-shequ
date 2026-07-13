@@ -2,6 +2,9 @@
 
 本项目使用 ROS1 Noetic、Gazebo Classic、Gmapping、AMCL 和 move_base，完成智慧社区仿真场地中的建图、定位、导航、避障和巡检拍照。
 
+正式导航和 SLAM 当前默认使用 `worlds/smart_community_0_10.world`；上一版重建场地仍保留在 `worlds/smart_community.world`。
+正式巡检路线使用 `config/patrol_0_10.yaml`，与该场地的两个人偶板和一个车牌板位置对应。
+
 当前正式能力：
 
 - 1 个 360 度激光雷达，发布 `/scan`
@@ -22,6 +25,14 @@ roslaunch zhihui_shequ_sim competition_navigation.launch
 
 正式入口使用 AMCL 和 move_base，不会启动旧的 `mission_controller.py` 固定时间路线。
 
+需要临时恢复上一版重建场地时，world 和 map 必须同时指定：
+
+```bash
+roslaunch zhihui_shequ_sim competition_navigation.launch \
+  world:=$(rospack find zhihui_shequ_sim)/worlds/smart_community.world \
+  map_file:=$(rospack find zhihui_shequ_sim)/maps/smart_community_slam.yaml
+```
+
 ## SLAM 建图入口
 
 ```bash
@@ -31,7 +42,7 @@ roslaunch zhihui_shequ_sim slam_mapping.launch
 自动覆盖结束后保存地图：
 
 ```bash
-rosrun map_server map_saver -f ~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_slam
+rosrun map_server map_saver -f ~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_0_10
 ```
 
 ## 旧固定路线

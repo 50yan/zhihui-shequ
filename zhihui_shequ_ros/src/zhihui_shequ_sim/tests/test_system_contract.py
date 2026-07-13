@@ -47,6 +47,11 @@ class SystemContractTest(unittest.TestCase):
         self.assertIn("navigation_status_window.py", node_types)
         self.assertNotIn("mission_controller.py", node_types)
 
+        args = {arg.get("name"): arg.get("default") for arg in root.findall("arg")}
+        self.assertIn("worlds/smart_community_0_10.world", args["world"])
+        self.assertIn("maps/smart_community_0_10.yaml", args["map_file"])
+        self.assertIn("config/patrol_0_10.yaml", args["patrol_config"])
+
     def test_slam_launch_wires_gmapping_and_real_motion_explorer(self):
         root = ET.parse(package_path("launch", "slam_mapping.launch")).getroot()
         packages = {node.get("pkg") for node in root.findall(".//node")}
@@ -54,6 +59,9 @@ class SystemContractTest(unittest.TestCase):
 
         self.assertIn("gmapping", packages)
         self.assertIn("mapping_explorer.py", node_types)
+        args = {arg.get("name"): arg.get("default") for arg in root.findall("arg")}
+        self.assertIn("worlds/smart_community_0_10.world", args["world"])
+        self.assertIn("config/mapping_route_0_10.yaml", args["explorer_config"])
 
     def test_legacy_launch_keeps_the_fixed_route_with_its_original_world(self):
         root = ET.parse(package_path("launch", "simulation.launch")).getroot()
@@ -79,6 +87,17 @@ class SystemContractTest(unittest.TestCase):
 
         for name in required - {"parking_zone"}:
             self.assertTrue(models[name].findall(".//collision"), name)
+
+    def test_selected_0_10_world_has_lidar_visible_inspection_boards(self):
+        root = ET.parse(package_path("worlds", "smart_community_0_10.world")).getroot()
+        models = {model.get("name"): model for model in root.findall(".//model")}
+        for name in ("people_area_1_board", "people_area_2_board", "plate_board"):
+            self.assertTrue(models[name].findall(".//collision"), name)
+
+        with open(package_path("config", "patrol_0_10.yaml"), "r", encoding="utf-8") as stream:
+            patrol = yaml.safe_load(stream)
+        captures = {waypoint.get("capture") for waypoint in patrol["waypoints"] if waypoint.get("capture")}
+        self.assertEqual({"people_a", "people_b", "plate"}, captures)
 
     def test_official_marked_gaps_are_exactly_060_metres(self):
         root = ET.parse(package_path("worlds", "smart_community.world")).getroot()
@@ -118,7 +137,9 @@ class SystemContractTest(unittest.TestCase):
             "move_base.yaml",
             "amcl.yaml",
             "mapping_route.yaml",
+            "mapping_route_0_10.yaml",
             "patrol.yaml",
+            "patrol_0_10.yaml",
         )
         for name in config_names:
             with open(package_path("config", name), "r", encoding="utf-8") as stream:
@@ -129,24 +150,29 @@ class SystemContractTest(unittest.TestCase):
             costmap = yaml.safe_load(stream)
         self.assertGreaterEqual(costmap["inflation_layer"]["inflation_radius"], 0.27)
 
-        with open(package_path("maps", "smart_community_slam.yaml"), "r", encoding="utf-8") as stream:
-            map_config = yaml.safe_load(stream)
-        self.assertEqual("smart_community_slam.pgm", map_config["image"])
-        self.assertGreater(map_config["resolution"], 0.0)
-        image_path = package_path("maps", map_config["image"])
-        self.assertTrue(os.path.isfile(image_path))
-        with open(image_path, "rb") as stream:
-            tokens = []
-            while len(tokens) < 4:
-                line = stream.readline()
-                self.assertTrue(line, "incomplete PGM header")
-                if line.startswith(b"#"):
-                    continue
-                tokens.extend(line.split())
-            self.assertEqual(b"P5", tokens[0])
-            self.assertGreater(int(tokens[1]), 0)
-            self.assertGreater(int(tokens[2]), 0)
-            self.assertEqual(255, int(tokens[3]))
+        map_files = {
+            "smart_community_slam.yaml": "smart_community_slam.pgm",
+            "smart_community_0_10.yaml": "smart_community_0_10.pgm",
+        }
+        for yaml_name, expected_image in map_files.items():
+            with open(package_path("maps", yaml_name), "r", encoding="utf-8") as stream:
+                map_config = yaml.safe_load(stream)
+            self.assertEqual(expected_image, map_config["image"])
+            self.assertGreater(map_config["resolution"], 0.0)
+            image_path = package_path("maps", map_config["image"])
+            self.assertTrue(os.path.isfile(image_path))
+            with open(image_path, "rb") as stream:
+                tokens = []
+                while len(tokens) < 4:
+                    line = stream.readline()
+                    self.assertTrue(line, "incomplete PGM header")
+                    if line.startswith(b"#"):
+                        continue
+                    tokens.extend(line.split())
+                self.assertEqual(b"P5", tokens[0])
+                self.assertGreater(int(tokens[1]), 0)
+                self.assertGreater(int(tokens[2]), 0)
+                self.assertEqual(255, int(tokens[3]))
 
     def test_patrol_has_unique_multi_point_goals_and_capture_stops(self):
         with open(package_path("config", "patrol.yaml"), "r", encoding="utf-8") as stream:

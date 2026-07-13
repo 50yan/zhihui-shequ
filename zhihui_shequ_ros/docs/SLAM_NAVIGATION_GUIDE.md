@@ -104,8 +104,8 @@ roslaunch zhihui_shequ_sim slam_mapping.launch
 source /opt/ros/noetic/setup.bash
 cd ~/zhihui_ws
 source devel/setup.bash
-rosrun map_server map_saver -f ~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_slam
-ls -lh ~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_slam.*
+rosrun map_server map_saver -f ~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_0_10
+ls -lh ~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_0_10.*
 ```
 
 建图时检查：
@@ -158,10 +158,13 @@ find ~/camera -maxdepth 2 -type f | sort
 
 ## 8. 关键文件
 
-- 正式场地：`~/zhihui_ws/src/zhihui_shequ_sim/worlds/smart_community.world`
+- 正式场地：`~/zhihui_ws/src/zhihui_shequ_sim/worlds/smart_community_0_10.world`
 - 机器人模型：`~/zhihui_ws/src/zhihui_shequ_sim/urdf/smart_car.xacro`
 - SLAM 入口：`~/zhihui_ws/src/zhihui_shequ_sim/launch/slam_mapping.launch`
 - 正式导航入口：`~/zhihui_ws/src/zhihui_shequ_sim/launch/competition_navigation.launch`
-- 巡检点：`~/zhihui_ws/src/zhihui_shequ_sim/config/patrol.yaml`
-- 建图覆盖点：`~/zhihui_ws/src/zhihui_shequ_sim/config/mapping_route.yaml`
-- 地图文件：`~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_slam.yaml`
+- 正式巡检点：`~/zhihui_ws/src/zhihui_shequ_sim/config/patrol_0_10.yaml`
+- 上一版巡检点：`~/zhihui_ws/src/zhihui_shequ_sim/config/patrol.yaml`
+- 0-10 场地建图覆盖点：`~/zhihui_ws/src/zhihui_shequ_sim/config/mapping_route_0_10.yaml`
+- 上一版建图覆盖点：`~/zhihui_ws/src/zhihui_shequ_sim/config/mapping_route.yaml`
+- 正式导航地图：`~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_0_10.yaml`
+- Gmapping 保存目标：`~/zhihui_ws/src/zhihui_shequ_sim/maps/smart_community_0_10.yaml`

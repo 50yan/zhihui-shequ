@@ -1,0 +1,22 @@
+output_dir: ~/camera
+camera_topic: /camera/image_raw
+move_base_action: /move_base
+goal_frame: map
+server_wait: 60.0
+localization_wait: 20.0
+localization_settle_time: 2.0
+require_localization: true
+goal_timeout: 120.0
+settle_time: 0.8
+capture_camera_wait: 3.0
+continue_on_failure: false
+
+# Patrol points matched to smart_community_0_10.world.
+waypoints:
+  - {name: start, x: 4.15, y: 3.65, yaw: 3.14159}
+  - {name: north_route, x: 0.00, y: 3.65, yaw: 3.14159}
+  - {name: people_area_1, x: -1.45, y: 0.90, yaw: 1.5708, capture: people_a}
+  - {name: people_area_2, x: -1.75, y: -0.50, yaw: -1.5708, capture: people_b}
+  - {name: south_left_route, x: -3.80, y: -3.80, yaw: 0.0}
+  - {name: plate_area, x: 3.20, y: -2.20, yaw: 0.0, capture: plate}
+  - {name: parking_finish, x: 4.15, y: 3.65, yaw: 3.14159}
