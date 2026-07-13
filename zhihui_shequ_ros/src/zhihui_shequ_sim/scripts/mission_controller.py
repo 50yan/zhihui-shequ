@@ -56,7 +56,8 @@ class MissionController:
         self.camera_topic = self.config.get("camera_topic", "/camera/image_raw")
         self.model_name = self.config.get("model_name", "smart_car")
         self.use_model_state_motion = bool(self.config.get("use_model_state_motion", True))
-        self.output_dir = os.path.expandvars(os.path.expanduser(self.config.get("output_dir", "~/.ros/zhihui_shequ/captures")))
+        output_root = os.path.expandvars(os.path.expanduser(self.config.get("output_dir", "~/.ros/zhihui_shequ/captures")))
+        self.output_dir = self._next_run_output_dir(output_root)
         os.makedirs(self.output_dir, exist_ok=True)
 
         self.bridge = CvBridge()
@@ -70,6 +71,16 @@ class MissionController:
 
         if self.use_model_state_motion:
             self._connect_model_state_services()
+
+    def _next_run_output_dir(self, output_root):
+        os.makedirs(output_root, exist_ok=True)
+        run_ids = []
+        for name in os.listdir(output_root):
+            path = os.path.join(output_root, name)
+            if os.path.isdir(path) and name.isdigit():
+                run_ids.append(int(name))
+        next_id = max(run_ids, default=0) + 1
+        return os.path.join(output_root, str(next_id))
 
     def _connect_model_state_services(self):
         try:

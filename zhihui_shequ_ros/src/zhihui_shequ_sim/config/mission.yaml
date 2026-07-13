@@ -1,4 +1,4 @@
-output_dir: "~/.ros/zhihui_shequ/captures"
+output_dir: "~/camera"
 cmd_vel_topic: "/cmd_vel"
 camera_topic: "/camera/image_raw"
 model_name: "smart_car"
@@ -12,132 +12,372 @@ steps:
     action: wait
     duration: 1.0
 
-  - name: leave_start_area
+  - name: leave_start_area_accel_1
     action: drive
-    linear: 0.45
+    linear: 0.35
     angular: 0.0
-    duration: 18.0
+    duration: 1.0
 
-  - name: face_people_area_1
+  - name: leave_start_area_accel_2
+    action: drive
+    linear: 0.60
+    angular: 0.0
+    duration: 2.0
+
+  - name: leave_start_area_fast
+    action: drive
+    linear: 0.80
+    angular: 0.0
+    duration: 7.0
+
+  - name: leave_start_area_decel_1
+    action: drive
+    linear: 0.60
+    angular: 0.0
+    duration: 1.0
+
+  - name: leave_start_area_decel_2
+    action: drive
+    linear: 0.35
+    angular: 0.0
+    duration: 1.0
+
+  - name: face_people_area_1_accel
     action: turn
     linear: 0.0
-    angular: 0.72
-    duration: 2.18
+    angular: 0.60
+    duration: 0.30
 
-  - name: approach_people_area_1
+  - name: face_people_area_1_fast
+    action: turn
+    linear: 0.0
+    angular: 1.10
+    duration: 1.0996
+
+  - name: face_people_area_1_decel
+    action: turn
+    linear: 0.0
+    angular: 0.60
+    duration: 0.30
+
+  - name: approach_people_area_1_accel
     action: drive
-    linear: 0.40
+    linear: 0.30
     angular: 0.0
-    duration: 4.5
+    duration: 0.5
+
+  - name: approach_people_area_1_fast
+    action: drive
+    linear: 0.60
+    angular: 0.0
+    duration: 2.5
+
+  - name: approach_people_area_1_decel
+    action: drive
+    linear: 0.30
+    angular: 0.0
+    duration: 0.5
 
   - name: people_area_1
     action: capture
     label: people_a
 
-  - name: go_to_people_area_2
+  - name: go_to_people_area_2_accel
     action: drive
-    linear: 0.40
+    linear: 0.30
     angular: 0.0
-    duration: 4.2
+    duration: 0.5
+
+  - name: go_to_people_area_2_fast
+    action: drive
+    linear: 0.60
+    angular: 0.0
+    duration: 2.3
+
+  - name: go_to_people_area_2_decel
+    action: drive
+    linear: 0.30
+    angular: 0.0
+    duration: 0.5
 
   - name: people_area_2
     action: capture
     label: people_b
 
-  - name: face_plate_lane
+  - name: face_plate_lane_accel
     action: turn
     linear: 0.0
-    angular: 0.72
-    duration: 2.18
+    angular: 0.60
+    duration: 0.30
 
-  - name: go_to_plate_lane
-    action: drive
-    linear: 0.45
-    angular: 0.0
-    duration: 6.5
-
-  - name: face_plate_row
+  - name: face_plate_lane_fast
     action: turn
     linear: 0.0
-    angular: -0.72
-    duration: 2.18
+    angular: 1.10
+    duration: 1.0996
 
-  - name: enter_plate_row
+  - name: face_plate_lane_decel
+    action: turn
+    linear: 0.0
+    angular: 0.60
+    duration: 0.30
+
+  - name: go_to_plate_lane_accel
     action: drive
     linear: 0.35
     angular: 0.0
-    duration: 12
+    duration: 0.5
 
-  - name: face_plate_area
+  - name: go_to_plate_lane_fast
+    action: drive
+    linear: 0.75
+    angular: 0.0
+    duration: 3.4333
+
+  - name: go_to_plate_lane_decel
+    action: drive
+    linear: 0.35
+    angular: 0.0
+    duration: 0.5
+
+  - name: face_plate_row_accel
     action: turn
     linear: 0.0
-    angular: 0.72
-    duration: 2.18
+    angular: -0.60
+    duration: 0.30
+
+  - name: face_plate_row_fast
+    action: turn
+    linear: 0.0
+    angular: -1.10
+    duration: 1.0996
+
+  - name: face_plate_row_decel
+    action: turn
+    linear: 0.0
+    angular: -0.60
+    duration: 0.30
+
+  - name: enter_plate_row_accel
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 1.0
+
+  - name: enter_plate_row_fast
+    action: drive
+    linear: 0.65
+    angular: 0.0
+    duration: 5.6923
+
+  - name: enter_plate_row_decel
+    action: drive
+    linear: 0.25
+    angular: 0.0
+    duration: 1.0
+
+  - name: face_plate_area_accel
+    action: turn
+    linear: 0.0
+    angular: 0.60
+    duration: 0.30
+
+  - name: face_plate_area_fast
+    action: turn
+    linear: 0.0
+    angular: 1.10
+    duration: 1.0996
+
+  - name: face_plate_area_decel
+    action: turn
+    linear: 0.0
+    angular: 0.60
+    duration: 0.30
 
   - name: plate_area
     action: capture
     label: plate
 
-  - name: park_forward
+  - name: park_forward_accel
     action: drive
-    linear: 0.25
+    linear: 0.20
     angular: 0.0
-    duration: 9
-    
-  - name: face_plate_area-2
+    duration: 0.5
+
+  - name: park_forward_fast
+    action: drive
+    linear: 0.55
+    angular: 0.0
+    duration: 3.7273
+
+  - name: park_forward_decel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: face_plate_area_2_accel
     action: turn
     linear: 0.0
-    angular: 0.72
-    duration: 2.18
-    
-  - name: park_forward-2
-    action: drive
-    linear: 0.25
-    angular: 0.0
-    duration: 6
+    angular: 0.60
+    duration: 0.30
 
-  - name: face_plate_row-2
+  - name: face_plate_area_2_fast
     action: turn
     linear: 0.0
-    angular: -0.72
-    duration: 2.18
- 
-  - name: park_forward-2
-    action: drive
-    linear: 0.25
-    angular: 0.0
-    duration: 8.5
+    angular: 1.10
+    duration: 1.0996
 
-  - name: reverse_after_park
-    action: drive
-    linear: -0.25
-    angular: 0.0
-    duration: 8.0
-
-  - name: face_plate_row-3
+  - name: face_plate_area_2_decel
     action: turn
     linear: 0.0
-    angular: 0.72
-    duration: 2.18
+    angular: 0.60
+    duration: 0.30
 
-  - name: park_forward-3
+  - name: park_forward_2a_accel
     action: drive
-    linear: 0.25
+    linear: 0.20
     angular: 0.0
-    duration: 25.5
- 
-  - name: face_plate_area-4
+    duration: 0.5
+
+  - name: park_forward_2a_fast
+    action: drive
+    linear: 0.55
+    angular: 0.0
+    duration: 2.3636
+
+  - name: park_forward_2a_decel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: face_plate_row_2_accel
     action: turn
     linear: 0.0
-    angular: -0.72
-    duration: 2.18 
-    
-  - name: park_forward-3
+    angular: -0.60
+    duration: 0.30
+
+  - name: face_plate_row_2_fast
+    action: turn
+    linear: 0.0
+    angular: -1.10
+    duration: 1.0996
+
+  - name: face_plate_row_2_decel
+    action: turn
+    linear: 0.0
+    angular: -0.60
+    duration: 0.30
+
+  - name: park_forward_2b_accel
     action: drive
-    linear: 0.25
+    linear: 0.20
     angular: 0.0
-    duration: 8
-        
+    duration: 0.5
+
+  - name: park_forward_2b_fast
+    action: drive
+    linear: 0.55
+    angular: 0.0
+    duration: 3.5
+
+  - name: park_forward_2b_decel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: reverse_after_park_accel
+    action: drive
+    linear: -0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: reverse_after_park_fast
+    action: drive
+    linear: -0.55
+    angular: 0.0
+    duration: 3.2727
+
+  - name: reverse_after_park_decel
+    action: drive
+    linear: -0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: face_plate_row_3_accel
+    action: turn
+    linear: 0.0
+    angular: 0.60
+    duration: 0.30
+
+  - name: face_plate_row_3_fast
+    action: turn
+    linear: 0.0
+    angular: 1.10
+    duration: 1.0996
+
+  - name: face_plate_row_3_decel
+    action: turn
+    linear: 0.0
+    angular: 0.60
+    duration: 0.30
+
+  - name: park_forward_3a_accel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: park_forward_3a_fast
+    action: drive
+    linear: 0.55
+    angular: 0.0
+    duration: 11.2273
+
+  - name: park_forward_3a_decel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: face_plate_area_4_accel
+    action: turn
+    linear: 0.0
+    angular: -0.60
+    duration: 0.30
+
+  - name: face_plate_area_4_fast
+    action: turn
+    linear: 0.0
+    angular: -1.10
+    duration: 1.0996
+
+  - name: face_plate_area_4_decel
+    action: turn
+    linear: 0.0
+    angular: -0.60
+    duration: 0.30
+
+  - name: park_forward_3b_accel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
+  - name: park_forward_3b_fast
+    action: drive
+    linear: 0.55
+    angular: 0.0
+    duration: 3.2727
+
+  - name: park_forward_3b_decel
+    action: drive
+    linear: 0.20
+    angular: 0.0
+    duration: 0.5
+
   - name: finish
     action: wait
     duration: 1.0

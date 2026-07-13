@@ -4,6 +4,7 @@ project(zhihui_shequ_sim)
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   gazebo_ros
+  rosgraph_msgs
   geometry_msgs
   nav_msgs
   rospy
@@ -20,6 +21,7 @@ catkin_install_python(PROGRAMS
   scripts/delete_existing_model.py
   scripts/reset_spawn_model.py
   scripts/vision_node.py
+  scripts/navigation_status_window.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
